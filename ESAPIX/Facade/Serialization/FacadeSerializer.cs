@@ -28,7 +28,6 @@ namespace ESAPIX.Facade.Serialization
                         new ProfilePointConverter(),
                         new DoseProfileConverter(),
                         new DVHPointConverter(),
-                        new StructureCodeInfoConverter(),
                         new DoseValueConverter()},
                     ContractResolver = new ESAPIContractResolver()
                 };
@@ -101,38 +100,12 @@ namespace ESAPIX.Facade.Serialization
         public static OfflineContext DeserializeContext(string jsonPath)
         {
             var ctx = DeserializeFromFile<OfflineContext>(jsonPath);
-            //BRACHY
-            if (ctx.BrachyPlanSetup != null) { ctx.BrachyPlanSetup.Course = ctx.Course; }
-            if (ctx.BrachyPlansInScope != null)
-            {
-                foreach (var ps in ctx.BrachyPlansInScope)
-                {
-                    ps.Course = ctx.Course;
-                }
-            }
+
             //PLAN SETUPS
             if (ctx.PlanSetup != null) { ctx.PlanSetup.Course = ctx.Course; }
             if (ctx.PlansInScope != null)
             {
                 foreach (var ps in ctx.PlansInScope)
-                {
-                    ps.Course = ctx.Course;
-                }
-            }
-            //EXTERNAL PLAN SETUPS
-            if (ctx.ExternalPlanSetup != null) { ctx.ExternalPlanSetup.Course = ctx.Course; }
-            if (ctx.ExternalPlansInScope != null)
-            {
-                foreach (var ps in ctx.PlansInScope)
-                {
-                    ps.Course = ctx.Course;
-                }
-            }
-
-            //PLAN SUMS
-            if (ctx.PlanSumsInScope != null)
-            {
-                foreach (var ps in ctx.PlanSumsInScope)
                 {
                     ps.Course = ctx.Course;
                 }

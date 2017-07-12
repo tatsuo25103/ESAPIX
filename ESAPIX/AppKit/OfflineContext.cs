@@ -13,10 +13,6 @@ namespace ESAPIX.AppKit
     {
         public string ApplicationName { get; set; }
 
-        public BrachyPlanSetup BrachyPlanSetup { get; set; }
-
-        public IEnumerable<BrachyPlanSetup> BrachyPlansInScope { get; set; }
-
         public User CurrentUser { get; set; }
 
         public Course Course { get; set; }
@@ -24,10 +20,6 @@ namespace ESAPIX.AppKit
         public Image Image { get; set; }
 
         public Patient Patient { get; set; }
-
-        public ExternalPlanSetup ExternalPlanSetup { get; set; }
-
-        public IEnumerable<ExternalPlanSetup> ExternalPlansInScope { get; set; }
 
         public PlanSetup PlanSetup { get; set; }
 
@@ -43,8 +35,6 @@ namespace ESAPIX.AppKit
 
         public event StandAloneContext.PatientChangedHandler PatientChanged;
         public event StandAloneContext.PlanSetupChangedHandler PlanSetupChanged;
-        public event StandAloneContext.ExternalPlanSetupChangedHandler ExternalPlanSetupChanged;
-        public event StandAloneContext.PlanSetupChangedHandler BrachyPlanSetupChanged;
         public event StandAloneContext.CourseChangedHandler CourseChanged;
 
         public T GetValue<T>(Func<IScriptContext, T> toExecute)

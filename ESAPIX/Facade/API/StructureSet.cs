@@ -1,60 +1,155 @@
-#region
-
-using System.Collections;
+using System;
+using System.Windows.Media.Media3D;
+using System.Windows.Media;
 using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 using System.Dynamic;
 using ESAPIX.Extensions;
+using VMS.TPS.Common.Model.Types;
 using XC = ESAPIX.Facade.XContext;
-
-#endregion
+using Types = VMS.TPS.Common.Model.Types;
 
 namespace ESAPIX.Facade.API
 {
-    public class StructureSet : ApiDataObject, System.Xml.Serialization.IXmlSerializable
+    public class StructureSet : ESAPIX.Facade.API.ApiDataObject, System.Xml.Serialization.IXmlSerializable
     {
-        public StructureSet()
+        public System.String UID
         {
-            _client = new ExpandoObject();
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("UID"))
+                    {
+                        return _client.UID;
+                    }
+                    else
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.UID;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (System.String);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.UID = (value);
+                }
+                else
+                {
+                }
+            }
         }
 
-        public StructureSet(dynamic client)
+        public ESAPIX.Facade.API.Image Image
         {
-            _client = client;
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("Image"))
+                    {
+                        return _client.Image;
+                    }
+                    else
+                    {
+                        return default (ESAPIX.Facade.API.Image);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        if ((_client.Image) != (null))
+                        {
+                            return new ESAPIX.Facade.API.Image(_client.Image);
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (ESAPIX.Facade.API.Image);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.Image = (value);
+                }
+                else
+                {
+                }
+            }
         }
 
-        public IEnumerable<Structure> Structures
+        public IEnumerable<ESAPIX.Facade.API.Structure> Structures
         {
             get
             {
                 if (_client is ExpandoObject)
                 {
                     if ((_client as ExpandoObject).HasProperty("Structures"))
+                    {
                         foreach (var item in _client.Structures)
+                        {
                             yield return item;
+                        }
+                    }
                     else
+                    {
                         yield break;
+                    }
                 }
                 else
                 {
                     IEnumerator enumerator = null;
                     XC.Instance.CurrentContext.Thread.Invoke(() =>
-                        {
-                            var asEnum = (IEnumerable) _client.Structures;
-                            enumerator = asEnum.GetEnumerator();
-                        }
-                    );
-                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
                     {
-                        var facade = new Structure();
+                        var asEnum = (IEnumerable)_client.Structures;
+                        enumerator = asEnum.GetEnumerator();
+                    }
+
+                    );
+                    while (XC.Instance.CurrentContext.GetValue<bool>(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new ESAPIX.Facade.API.Structure();
                         XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var vms = enumerator.Current;
+                            if (vms != null)
                             {
-                                var vms = enumerator.Current;
-                                if (vms != null)
-                                    facade._client = vms;
+                                facade._client = vms;
                             }
+                        }
+
                         );
                         if (facade._client != null)
+                        {
                             yield return facade;
+                        }
                     }
                 }
             }
@@ -66,98 +161,14 @@ namespace ESAPIX.Facade.API
             }
         }
 
-        public Image Image
+        public StructureSet()
         {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("Image"))
-                        return _client.Image;
-                    else
-                        return default(Image);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc =>
-                        {
-                            if (_client.Image != null)
-                                return new Image(_client.Image);
-                            return null;
-                        }
-                    );
-                return default(Image);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.Image = value;
-            }
+            _client = (new ExpandoObject());
         }
 
-        public string UID
+        public StructureSet(dynamic client)
         {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("UID"))
-                        return _client.UID;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.UID; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.UID = value;
-            }
-        }
-
-        public Structure AddStructure(string dicomType, string id)
-        {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(
-                    sc => { return new Structure(_client.AddStructure(dicomType, id)); }
-                );
-                return vmsResult;
-            }
-            return _client.AddStructure(dicomType, id);
-        }
-
-        public bool CanAddStructure(string dicomType, string id)
-        {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(
-                    sc => { return _client.CanAddStructure(dicomType, id); }
-                );
-                return vmsResult;
-            }
-            return (bool) _client.CanAddStructure(dicomType, id);
-        }
-
-        public bool CanRemoveStructure(Structure structure)
-        {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(
-                    sc => { return _client.CanRemoveStructure(structure._client); }
-                );
-                return vmsResult;
-            }
-            return (bool) _client.CanRemoveStructure(structure);
-        }
-
-        public void RemoveStructure(Structure structure)
-        {
-            if (XC.Instance.CurrentContext != null)
-                XC.Instance.CurrentContext.Thread.Invoke(() => { _client.RemoveStructure(structure._client); }
-                );
-            else
-                _client.RemoveStructure(structure);
+            _client = (client);
         }
     }
 }

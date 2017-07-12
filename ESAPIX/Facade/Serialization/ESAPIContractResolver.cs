@@ -22,20 +22,8 @@ namespace ESAPIX.Facade.Serialization
             var excludingNames = new List<string>();
             switch (type.Name)
             {
-                case nameof(IScriptContext.Course):
-                    excludingNames.Add(nameof(Course.Patient));
-                    break;
-                case nameof(IScriptContext.ExternalPlanSetup):
-                    excludingNames.Add(nameof(ExternalPlanSetup.Course));
-                    break;
-                case nameof(IScriptContext.BrachyPlanSetup):
-                    excludingNames.Add(nameof(BrachyPlanSetup.Course));
-                    break;
                 case nameof(IScriptContext.PlanSetup):
                     excludingNames.Add(nameof(PlanSetup.Course));
-                    break;
-                case nameof(PlanSum):
-                    excludingNames.Add(nameof(PlanSum.Course));
                     break;
                 case nameof(Image.Series):
                     excludingNames.Add(nameof(Series.Images));

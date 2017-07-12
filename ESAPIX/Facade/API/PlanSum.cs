@@ -1,159 +1,113 @@
-#region
-
-using System.Collections;
+using System;
+using System.Windows.Media.Media3D;
+using System.Windows.Media;
 using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 using System.Dynamic;
 using ESAPIX.Extensions;
 using VMS.TPS.Common.Model.Types;
 using XC = ESAPIX.Facade.XContext;
-
-#endregion
+using Types = VMS.TPS.Common.Model.Types;
 
 namespace ESAPIX.Facade.API
 {
-    public class PlanSum : PlanningItem, System.Xml.Serialization.IXmlSerializable
+    public class PlanSum : ESAPIX.Facade.API.PlanningItem, System.Xml.Serialization.IXmlSerializable
     {
-        public PlanSum()
-        {
-            _client = new ExpandoObject();
-        }
-
-        public PlanSum(dynamic client)
-        {
-            _client = client;
-        }
-
-        public Course Course
+        public ESAPIX.Facade.API.StructureSet StructureSet
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("Course"))
-                        return _client.Course;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("StructureSet"))
+                    {
+                        return _client.StructureSet;
+                    }
                     else
-                        return default(Course);
-                if (XC.Instance.CurrentContext != null)
+                    {
+                        return default (ESAPIX.Facade.API.StructureSet);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
                     return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        if ((_client.StructureSet) != (null))
                         {
-                            if (_client.Course != null)
-                                return new Course(_client.Course);
+                            return new ESAPIX.Facade.API.StructureSet(_client.StructureSet);
+                        }
+                        else
+                        {
                             return null;
                         }
+                    }
+
                     );
-                return default(Course);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.Course = value;
-            }
-        }
-
-        public IEnumerable<PlanSumComponent> PlanSumComponents
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                {
-                    if ((_client as ExpandoObject).HasProperty("PlanSumComponents"))
-                        foreach (var item in _client.PlanSumComponents)
-                            yield return item;
-                    else
-                        yield break;
                 }
                 else
                 {
-                    IEnumerator enumerator = null;
-                    XC.Instance.CurrentContext.Thread.Invoke(() =>
-                        {
-                            var asEnum = (IEnumerable) _client.PlanSumComponents;
-                            enumerator = asEnum.GetEnumerator();
-                        }
-                    );
-                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
-                    {
-                        var facade = new PlanSumComponent();
-                        XC.Instance.CurrentContext.Thread.Invoke(() =>
-                            {
-                                var vms = enumerator.Current;
-                                if (vms != null)
-                                    facade._client = vms;
-                            }
-                        );
-                        if (facade._client != null)
-                            yield return facade;
-                    }
+                    return default (ESAPIX.Facade.API.StructureSet);
                 }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.PlanSumComponents = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.StructureSet = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public StructureSet StructureSet
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("StructureSet"))
-                        return _client.StructureSet;
-                    else
-                        return default(StructureSet);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc =>
-                        {
-                            if (_client.StructureSet != null)
-                                return new StructureSet(_client.StructureSet);
-                            return null;
-                        }
-                    );
-                return default(StructureSet);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.StructureSet = value;
-            }
-        }
-
-        public IEnumerable<PlanSetup> PlanSetups
+        public IEnumerable<ESAPIX.Facade.API.PlanSetup> PlanSetups
         {
             get
             {
                 if (_client is ExpandoObject)
                 {
                     if ((_client as ExpandoObject).HasProperty("PlanSetups"))
+                    {
                         foreach (var item in _client.PlanSetups)
+                        {
                             yield return item;
+                        }
+                    }
                     else
+                    {
                         yield break;
+                    }
                 }
                 else
                 {
                     IEnumerator enumerator = null;
                     XC.Instance.CurrentContext.Thread.Invoke(() =>
-                        {
-                            var asEnum = (IEnumerable) _client.PlanSetups;
-                            enumerator = asEnum.GetEnumerator();
-                        }
-                    );
-                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
                     {
-                        var facade = new PlanSetup();
+                        var asEnum = (IEnumerable)_client.PlanSetups;
+                        enumerator = asEnum.GetEnumerator();
+                    }
+
+                    );
+                    while (XC.Instance.CurrentContext.GetValue<bool>(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new ESAPIX.Facade.API.PlanSetup();
                         XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var vms = enumerator.Current;
+                            if (vms != null)
                             {
-                                var vms = enumerator.Current;
-                                if (vms != null)
-                                    facade._client = vms;
+                                facade._client = vms;
                             }
+                        }
+
                         );
                         if (facade._client != null)
+                        {
                             yield return facade;
+                        }
                     }
                 }
             }
@@ -165,30 +119,14 @@ namespace ESAPIX.Facade.API
             }
         }
 
-        public PlanSumOperation GetPlanSumOperation(PlanSetup planSetupInPlanSum)
+        public PlanSum()
         {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
-                    {
-                        return _client.GetPlanSumOperation(planSetupInPlanSum._client);
-                    }
-                );
-                return vmsResult;
-            }
-            return (PlanSumOperation) _client.GetPlanSumOperation(planSetupInPlanSum);
+            _client = (new ExpandoObject());
         }
 
-        public double GetPlanWeight(PlanSetup planSetupInPlanSum)
+        public PlanSum(dynamic client)
         {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(
-                    sc => { return _client.GetPlanWeight(planSetupInPlanSum._client); }
-                );
-                return vmsResult;
-            }
-            return (double) _client.GetPlanWeight(planSetupInPlanSum);
+            _client = (client);
         }
     }
 }

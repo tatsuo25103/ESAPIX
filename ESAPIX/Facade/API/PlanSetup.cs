@@ -1,83 +1,449 @@
-#region
-
-using System.Collections;
+using System;
+using System.Windows.Media.Media3D;
+using System.Windows.Media;
 using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 using System.Dynamic;
 using ESAPIX.Extensions;
 using VMS.TPS.Common.Model.Types;
 using XC = ESAPIX.Facade.XContext;
-
-#endregion
+using Types = VMS.TPS.Common.Model.Types;
 
 namespace ESAPIX.Facade.API
 {
-    public class PlanSetup : PlanningItem, System.Xml.Serialization.IXmlSerializable
+    public class PlanSetup : ESAPIX.Facade.API.PlanningItem, System.Xml.Serialization.IXmlSerializable
     {
-        public PlanSetup()
-        {
-            _client = new ExpandoObject();
-        }
-
-        public PlanSetup(dynamic client)
-        {
-            _client = client;
-        }
-
-        public PlanSetupApprovalStatus ApprovalStatus
+        public System.String UID
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("ApprovalStatus"))
-                        return _client.ApprovalStatus;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("UID"))
+                    {
+                        return _client.UID;
+                    }
                     else
-                        return default(PlanSetupApprovalStatus);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.ApprovalStatus; }
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.UID;
+                    }
+
                     );
-                return default(PlanSetupApprovalStatus);
+                }
+                else
+                {
+                    return default (System.String);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.ApprovalStatus = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.UID = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public IEnumerable<Beam> Beams
+        public System.Boolean IsTreated
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("IsTreated"))
+                    {
+                        return _client.IsTreated;
+                    }
+                    else
+                    {
+                        return default (System.Boolean);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.IsTreated;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (System.Boolean);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.IsTreated = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public System.String CreationUserName
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("CreationUserName"))
+                    {
+                        return _client.CreationUserName;
+                    }
+                    else
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.CreationUserName;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (System.String);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.CreationUserName = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public System.String PlanNormalizationMethod
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("PlanNormalizationMethod"))
+                    {
+                        return _client.PlanNormalizationMethod;
+                    }
+                    else
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.PlanNormalizationMethod;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (System.String);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.PlanNormalizationMethod = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public VMS.TPS.Common.Model.Types.VVector PlanNormalizationPoint
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("PlanNormalizationPoint"))
+                    {
+                        return _client.PlanNormalizationPoint;
+                    }
+                    else
+                    {
+                        return default (VMS.TPS.Common.Model.Types.VVector);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.PlanNormalizationPoint;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (VMS.TPS.Common.Model.Types.VVector);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.PlanNormalizationPoint = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public System.String ProtocolID
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("ProtocolID"))
+                    {
+                        return _client.ProtocolID;
+                    }
+                    else
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.ProtocolID;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (System.String);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.ProtocolID = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public System.String ProtocolPhaseID
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("ProtocolPhaseID"))
+                    {
+                        return _client.ProtocolPhaseID;
+                    }
+                    else
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.ProtocolPhaseID;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (System.String);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.ProtocolPhaseID = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public System.String TargetVolumeID
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("TargetVolumeID"))
+                    {
+                        return _client.TargetVolumeID;
+                    }
+                    else
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.TargetVolumeID;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (System.String);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.TargetVolumeID = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public ESAPIX.Facade.API.Course Course
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("Course"))
+                    {
+                        return _client.Course;
+                    }
+                    else
+                    {
+                        return default (ESAPIX.Facade.API.Course);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        if ((_client.Course) != (null))
+                        {
+                            return new ESAPIX.Facade.API.Course(_client.Course);
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (ESAPIX.Facade.API.Course);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.Course = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public IEnumerable<ESAPIX.Facade.API.Beam> Beams
         {
             get
             {
                 if (_client is ExpandoObject)
                 {
                     if ((_client as ExpandoObject).HasProperty("Beams"))
+                    {
                         foreach (var item in _client.Beams)
+                        {
                             yield return item;
+                        }
+                    }
                     else
+                    {
                         yield break;
+                    }
                 }
                 else
                 {
                     IEnumerator enumerator = null;
                     XC.Instance.CurrentContext.Thread.Invoke(() =>
-                        {
-                            var asEnum = (IEnumerable) _client.Beams;
-                            enumerator = asEnum.GetEnumerator();
-                        }
-                    );
-                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
                     {
-                        var facade = new Beam();
+                        var asEnum = (IEnumerable)_client.Beams;
+                        enumerator = asEnum.GetEnumerator();
+                    }
+
+                    );
+                    while (XC.Instance.CurrentContext.GetValue<bool>(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new ESAPIX.Facade.API.Beam();
                         XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var vms = enumerator.Current;
+                            if (vms != null)
                             {
-                                var vms = enumerator.Current;
-                                if (vms != null)
-                                    facade._client = vms;
+                                facade._client = vms;
                             }
+                        }
+
                         );
                         if (facade._client != null)
+                        {
                             yield return facade;
+                        }
                     }
                 }
             }
@@ -89,935 +455,827 @@ namespace ESAPIX.Facade.API
             }
         }
 
-        public Course Course
+        public ESAPIX.Facade.API.StructureSet StructureSet
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("Course"))
-                        return _client.Course;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("StructureSet"))
+                    {
+                        return _client.StructureSet;
+                    }
                     else
-                        return default(Course);
-                if (XC.Instance.CurrentContext != null)
+                    {
+                        return default (ESAPIX.Facade.API.StructureSet);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
                     return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        if ((_client.StructureSet) != (null))
                         {
-                            if (_client.Course != null)
-                                return new Course(_client.Course);
+                            return new ESAPIX.Facade.API.StructureSet(_client.StructureSet);
+                        }
+                        else
+                        {
                             return null;
                         }
+                    }
+
                     );
-                return default(Course);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.Course = value;
-            }
-        }
-
-        public string CreationUserName
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("CreationUserName"))
-                        return _client.CreationUserName;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.CreationUserName; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.CreationUserName = value;
-            }
-        }
-
-        public IEnumerable<EstimatedDVH> DVHEstimates
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                {
-                    if ((_client as ExpandoObject).HasProperty("DVHEstimates"))
-                        foreach (var item in _client.DVHEstimates)
-                            yield return item;
-                    else
-                        yield break;
                 }
                 else
                 {
-                    IEnumerator enumerator = null;
-                    XC.Instance.CurrentContext.Thread.Invoke(() =>
-                        {
-                            var asEnum = (IEnumerable) _client.DVHEstimates;
-                            enumerator = asEnum.GetEnumerator();
-                        }
-                    );
-                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
-                    {
-                        var facade = new EstimatedDVH();
-                        XC.Instance.CurrentContext.Thread.Invoke(() =>
-                            {
-                                var vms = enumerator.Current;
-                                if (vms != null)
-                                    facade._client = vms;
-                            }
-                        );
-                        if (facade._client != null)
-                            yield return facade;
-                    }
+                    return default (ESAPIX.Facade.API.StructureSet);
                 }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.DVHEstimates = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.StructureSet = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public string ElectronCalculationModel
+        public System.Boolean IsDoseValid
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("ElectronCalculationModel"))
-                        return _client.ElectronCalculationModel;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.ElectronCalculationModel; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.ElectronCalculationModel = value;
-            }
-        }
-
-        public Dictionary<string, string> ElectronCalculationOptions
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("ElectronCalculationOptions"))
-                        return _client.ElectronCalculationOptions;
-                    else
-                        return default(Dictionary<string, string>);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.ElectronCalculationOptions; }
-                    );
-                return default(Dictionary<string, string>);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.ElectronCalculationOptions = value;
-            }
-        }
-
-        public bool IsDoseValid
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("IsDoseValid"))
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("IsDoseValid"))
+                    {
                         return _client.IsDoseValid;
+                    }
                     else
-                        return default(bool);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.IsDoseValid; }
-                    );
-                return default(bool);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.IsDoseValid = value;
-            }
-        }
-
-        public bool IsTreated
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("IsTreated"))
-                        return _client.IsTreated;
-                    else
-                        return default(bool);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.IsTreated; }
-                    );
-                return default(bool);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.IsTreated = value;
-            }
-        }
-
-        public OptimizationSetup OptimizationSetup
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("OptimizationSetup"))
-                        return _client.OptimizationSetup;
-                    else
-                        return default(OptimizationSetup);
-                if (XC.Instance.CurrentContext != null)
+                    {
+                        return default (System.Boolean);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
                     return XC.Instance.CurrentContext.GetValue(sc =>
-                        {
-                            if (_client.OptimizationSetup != null)
-                                return new OptimizationSetup(_client.OptimizationSetup);
-                            return null;
-                        }
+                    {
+                        return _client.IsDoseValid;
+                    }
+
                     );
-                return default(OptimizationSetup);
+                }
+                else
+                {
+                    return default (System.Boolean);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.OptimizationSetup = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.IsDoseValid = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public string PhotonCalculationModel
+        public VMS.TPS.Common.Model.Types.PlanSetupApprovalStatus ApprovalStatus
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PhotonCalculationModel"))
-                        return _client.PhotonCalculationModel;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("ApprovalStatus"))
+                    {
+                        return _client.ApprovalStatus;
+                    }
                     else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PhotonCalculationModel; }
+                    {
+                        return default (VMS.TPS.Common.Model.Types.PlanSetupApprovalStatus);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.ApprovalStatus;
+                    }
+
                     );
-                return default(string);
+                }
+                else
+                {
+                    return default (VMS.TPS.Common.Model.Types.PlanSetupApprovalStatus);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.PhotonCalculationModel = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.ApprovalStatus = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public Dictionary<string, string> PhotonCalculationOptions
+        public System.String PlanningApprovalDate
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PhotonCalculationOptions"))
-                        return _client.PhotonCalculationOptions;
-                    else
-                        return default(Dictionary<string, string>);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PhotonCalculationOptions; }
-                    );
-                return default(Dictionary<string, string>);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.PhotonCalculationOptions = value;
-            }
-        }
-
-        public string PlanIntent
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PlanIntent"))
-                        return _client.PlanIntent;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PlanIntent; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.PlanIntent = value;
-            }
-        }
-
-        public string PlanningApprovalDate
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PlanningApprovalDate"))
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("PlanningApprovalDate"))
+                    {
                         return _client.PlanningApprovalDate;
+                    }
                     else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PlanningApprovalDate; }
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.PlanningApprovalDate;
+                    }
+
                     );
-                return default(string);
+                }
+                else
+                {
+                    return default (System.String);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.PlanningApprovalDate = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.PlanningApprovalDate = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public string PlanningApprover
+        public System.String PlanningApprover
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PlanningApprover"))
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("PlanningApprover"))
+                    {
                         return _client.PlanningApprover;
+                    }
                     else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PlanningApprover; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.PlanningApprover = value;
-            }
-        }
-
-        public string PlanNormalizationMethod
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PlanNormalizationMethod"))
-                        return _client.PlanNormalizationMethod;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PlanNormalizationMethod; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.PlanNormalizationMethod = value;
-            }
-        }
-
-        public VVector PlanNormalizationPoint
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PlanNormalizationPoint"))
-                        return _client.PlanNormalizationPoint;
-                    else
-                        return default(VVector);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PlanNormalizationPoint; }
-                    );
-                return default(VVector);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.PlanNormalizationPoint = value;
-            }
-        }
-
-        public PlanType PlanType
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PlanType"))
-                        return _client.PlanType;
-                    else
-                        return default(PlanType);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PlanType; }
-                    );
-                return default(PlanType);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.PlanType = value;
-            }
-        }
-
-        public double PrescribedPercentage
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PrescribedPercentage"))
-                        return _client.PrescribedPercentage;
-                    else
-                        return default(double);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PrescribedPercentage; }
-                    );
-                return default(double);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.PrescribedPercentage = value;
-            }
-        }
-
-        public ReferencePoint PrimaryReferencePoint
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PrimaryReferencePoint"))
-                        return _client.PrimaryReferencePoint;
-                    else
-                        return default(ReferencePoint);
-                if (XC.Instance.CurrentContext != null)
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
                     return XC.Instance.CurrentContext.GetValue(sc =>
-                        {
-                            if (_client.PrimaryReferencePoint != null)
-                                return new ReferencePoint(_client.PrimaryReferencePoint);
-                            return null;
-                        }
+                    {
+                        return _client.PlanningApprover;
+                    }
+
                     );
-                return default(ReferencePoint);
+                }
+                else
+                {
+                    return default (System.String);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.PrimaryReferencePoint = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.PlanningApprover = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public string ProtocolID
+        public System.String TreatmentApprovalDate
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("ProtocolID"))
-                        return _client.ProtocolID;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.ProtocolID; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.ProtocolID = value;
-            }
-        }
-
-        public string ProtocolPhaseID
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("ProtocolPhaseID"))
-                        return _client.ProtocolPhaseID;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.ProtocolPhaseID; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.ProtocolPhaseID = value;
-            }
-        }
-
-        public string ProtonCalculationModel
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("ProtonCalculationModel"))
-                        return _client.ProtonCalculationModel;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.ProtonCalculationModel; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.ProtonCalculationModel = value;
-            }
-        }
-
-        public Dictionary<string, string> ProtonCalculationOptions
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("ProtonCalculationOptions"))
-                        return _client.ProtonCalculationOptions;
-                    else
-                        return default(Dictionary<string, string>);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.ProtonCalculationOptions; }
-                    );
-                return default(Dictionary<string, string>);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.ProtonCalculationOptions = value;
-            }
-        }
-
-        public Series Series
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("Series"))
-                        return _client.Series;
-                    else
-                        return default(Series);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc =>
-                        {
-                            if (_client.Series != null)
-                                return new Series(_client.Series);
-                            return null;
-                        }
-                    );
-                return default(Series);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.Series = value;
-            }
-        }
-
-        public string SeriesUID
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("SeriesUID"))
-                        return _client.SeriesUID;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.SeriesUID; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.SeriesUID = value;
-            }
-        }
-
-        public StructureSet StructureSet
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("StructureSet"))
-                        return _client.StructureSet;
-                    else
-                        return default(StructureSet);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc =>
-                        {
-                            if (_client.StructureSet != null)
-                                return new StructureSet(_client.StructureSet);
-                            return null;
-                        }
-                    );
-                return default(StructureSet);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.StructureSet = value;
-            }
-        }
-
-        public string TargetVolumeID
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("TargetVolumeID"))
-                        return _client.TargetVolumeID;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.TargetVolumeID; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.TargetVolumeID = value;
-            }
-        }
-
-        public DoseValue TotalPrescribedDose
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("TotalPrescribedDose"))
-                        return _client.TotalPrescribedDose;
-                    else
-                        return default(DoseValue);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.TotalPrescribedDose; }
-                    );
-                return default(DoseValue);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.TotalPrescribedDose = value;
-            }
-        }
-
-        public string TreatmentApprovalDate
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("TreatmentApprovalDate"))
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("TreatmentApprovalDate"))
+                    {
                         return _client.TreatmentApprovalDate;
+                    }
                     else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.TreatmentApprovalDate; }
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.TreatmentApprovalDate;
+                    }
+
                     );
-                return default(string);
+                }
+                else
+                {
+                    return default (System.String);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.TreatmentApprovalDate = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.TreatmentApprovalDate = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public string TreatmentApprover
+        public System.String TreatmentApprover
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("TreatmentApprover"))
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("TreatmentApprover"))
+                    {
                         return _client.TreatmentApprover;
+                    }
                     else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.TreatmentApprover; }
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.TreatmentApprover;
+                    }
+
                     );
-                return default(string);
+                }
+                else
+                {
+                    return default (System.String);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.TreatmentApprover = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.TreatmentApprover = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public PatientOrientation TreatmentOrientation
+        public System.Double PrescribedPercentage
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("TreatmentOrientation"))
-                        return _client.TreatmentOrientation;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("PrescribedPercentage"))
+                    {
+                        return _client.PrescribedPercentage;
+                    }
                     else
-                        return default(PatientOrientation);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.TreatmentOrientation; }
+                    {
+                        return default (System.Double);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.PrescribedPercentage;
+                    }
+
                     );
-                return default(PatientOrientation);
+                }
+                else
+                {
+                    return default (System.Double);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.TreatmentOrientation = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.PrescribedPercentage = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public string UID
+        public VMS.TPS.Common.Model.Types.DoseValue TotalPrescribedDose
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("UID"))
-                        return _client.UID;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("TotalPrescribedDose"))
+                    {
+                        return _client.TotalPrescribedDose;
+                    }
                     else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.UID; }
+                    {
+                        return default (VMS.TPS.Common.Model.Types.DoseValue);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.TotalPrescribedDose;
+                    }
+
                     );
-                return default(string);
+                }
+                else
+                {
+                    return default (VMS.TPS.Common.Model.Types.DoseValue);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.UID = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.TotalPrescribedDose = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public Fractionation UniqueFractionation
+        public ESAPIX.Facade.API.Fractionation UniqueFractionation
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("UniqueFractionation"))
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("UniqueFractionation"))
+                    {
                         return _client.UniqueFractionation;
+                    }
                     else
-                        return default(Fractionation);
-                if (XC.Instance.CurrentContext != null)
+                    {
+                        return default (ESAPIX.Facade.API.Fractionation);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
                     return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        if ((_client.UniqueFractionation) != (null))
                         {
-                            if (_client.UniqueFractionation != null)
-                                return new Fractionation(_client.UniqueFractionation);
+                            return new ESAPIX.Facade.API.Fractionation(_client.UniqueFractionation);
+                        }
+                        else
+                        {
                             return null;
                         }
+                    }
+
                     );
-                return default(Fractionation);
+                }
+                else
+                {
+                    return default (ESAPIX.Facade.API.Fractionation);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.UniqueFractionation = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.UniqueFractionation = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public PlanSetup VerifiedPlan
+        public ESAPIX.Facade.API.ReferencePoint PrimaryReferencePoint
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("VerifiedPlan"))
-                        return _client.VerifiedPlan;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("PrimaryReferencePoint"))
+                    {
+                        return _client.PrimaryReferencePoint;
+                    }
                     else
-                        return default(PlanSetup);
-                if (XC.Instance.CurrentContext != null)
+                    {
+                        return default (ESAPIX.Facade.API.ReferencePoint);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
                     return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        if ((_client.PrimaryReferencePoint) != (null))
                         {
-                            if (_client.VerifiedPlan != null)
-                                return new PlanSetup(_client.VerifiedPlan);
+                            return new ESAPIX.Facade.API.ReferencePoint(_client.PrimaryReferencePoint);
+                        }
+                        else
+                        {
                             return null;
                         }
+                    }
+
                     );
-                return default(PlanSetup);
+                }
+                else
+                {
+                    return default (ESAPIX.Facade.API.ReferencePoint);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.VerifiedPlan = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.PrimaryReferencePoint = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public string Id
+        public System.String ElectronCalculationModel
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("Id"))
-                        return _client.Id;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("ElectronCalculationModel"))
+                    {
+                        return _client.ElectronCalculationModel;
+                    }
                     else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Id; }
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.ElectronCalculationModel;
+                    }
+
                     );
-                return default(string);
+                }
+                else
+                {
+                    return default (System.String);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.Id = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.ElectronCalculationModel = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public double PlanNormalizationValue
+        public System.Collections.Generic.Dictionary<System.String,System.String> ElectronCalculationOptions
         {
             get
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PlanNormalizationValue"))
-                        return _client.PlanNormalizationValue;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("ElectronCalculationOptions"))
+                    {
+                        return _client.ElectronCalculationOptions;
+                    }
                     else
-                        return default(double);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PlanNormalizationValue; }
+                    {
+                        return default (System.Collections.Generic.Dictionary<System.String,System.String>);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.ElectronCalculationOptions;
+                    }
+
                     );
-                return default(double);
+                }
+                else
+                {
+                    return default (System.Collections.Generic.Dictionary<System.String,System.String>);
+                }
             }
 
             set
             {
-                if (_client is ExpandoObject)
-                    _client.PlanNormalizationValue = value;
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.ElectronCalculationOptions = (value);
+                }
+                else
+                {
+                }
             }
         }
 
-        public void ClearCalculationModel(CalculationType calculationType)
+        public System.String PhotonCalculationModel
         {
-            if (XC.Instance.CurrentContext != null)
-                XC.Instance.CurrentContext.Thread.Invoke(() => { _client.ClearCalculationModel(calculationType); }
-                );
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("PhotonCalculationModel"))
+                    {
+                        return _client.PhotonCalculationModel;
+                    }
+                    else
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.PhotonCalculationModel;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (System.String);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.PhotonCalculationModel = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public System.Collections.Generic.Dictionary<System.String,System.String> PhotonCalculationOptions
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("PhotonCalculationOptions"))
+                    {
+                        return _client.PhotonCalculationOptions;
+                    }
+                    else
+                    {
+                        return default (System.Collections.Generic.Dictionary<System.String,System.String>);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.PhotonCalculationOptions;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (System.Collections.Generic.Dictionary<System.String,System.String>);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.PhotonCalculationOptions = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public System.String ProtonCalculationModel
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("ProtonCalculationModel"))
+                    {
+                        return _client.ProtonCalculationModel;
+                    }
+                    else
+                    {
+                        return default (System.String);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.ProtonCalculationModel;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (System.String);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.ProtonCalculationModel = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public System.Collections.Generic.Dictionary<System.String,System.String> ProtonCalculationOptions
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("ProtonCalculationOptions"))
+                    {
+                        return _client.ProtonCalculationOptions;
+                    }
+                    else
+                    {
+                        return default (System.Collections.Generic.Dictionary<System.String,System.String>);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.ProtonCalculationOptions;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (System.Collections.Generic.Dictionary<System.String,System.String>);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.ProtonCalculationOptions = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public VMS.TPS.Common.Model.Types.PatientOrientation TreatmentOrientation
+        {
+            get
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    if (((ExpandoObject)(_client)).HasProperty("TreatmentOrientation"))
+                    {
+                        return _client.TreatmentOrientation;
+                    }
+                    else
+                    {
+                        return default (VMS.TPS.Common.Model.Types.PatientOrientation);
+                    }
+                }
+                else if ((XC.Instance.CurrentContext) != (null))
+                {
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.TreatmentOrientation;
+                    }
+
+                    );
+                }
+                else
+                {
+                    return default (VMS.TPS.Common.Model.Types.PatientOrientation);
+                }
+            }
+
+            set
+            {
+                if ((_client) is System.Dynamic.ExpandoObject)
+                {
+                    _client.TreatmentOrientation = (value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        public VMS.TPS.Common.Model.Types.DoseValue GetDoseAtVolume(ESAPIX.Facade.API.Structure structure, System.Double volume, VMS.TPS.Common.Model.Types.VolumePresentation volumePresentation, VMS.TPS.Common.Model.Types.DoseValuePresentation requestedDosePresentation)
+        {
+            if ((XC.Instance.CurrentContext) != (null))
+            {
+                var vmsResult = (XC.Instance.CurrentContext.GetValue(sc =>
+                {
+                    return _client.GetDoseAtVolume(structure._client, volume, volumePresentation, requestedDosePresentation);
+                }
+
+                ));
+                return vmsResult;
+            }
             else
-                _client.ClearCalculationModel(calculationType);
+            {
+                return (VMS.TPS.Common.Model.Types.DoseValue)(_client.GetDoseAtVolume(structure, volume, volumePresentation, requestedDosePresentation));
+            }
         }
 
-        public string GetCalculationModel(CalculationType calculationType)
+        public System.Double GetVolumeAtDose(ESAPIX.Facade.API.Structure structure, VMS.TPS.Common.Model.Types.DoseValue dose, VMS.TPS.Common.Model.Types.VolumePresentation requestedVolumePresentation)
         {
-            if (XC.Instance.CurrentContext != null)
+            if ((XC.Instance.CurrentContext) != (null))
             {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(
-                    sc => { return _client.GetCalculationModel(calculationType); }
-                );
+                var vmsResult = (XC.Instance.CurrentContext.GetValue(sc =>
+                {
+                    return _client.GetVolumeAtDose(structure._client, dose, requestedVolumePresentation);
+                }
+
+                ));
                 return vmsResult;
             }
-            return (string) _client.GetCalculationModel(calculationType);
-        }
-
-        public bool GetCalculationOption(string calculationModel, string optionName, out string optionValue)
-        {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var optionValue_OUT = default(string);
-                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
-                    {
-                        return _client.GetCalculationOption(calculationModel, optionName, out optionValue_OUT);
-                    }
-                );
-                optionValue = optionValue_OUT;
-                return vmsResult;
-            }
-            return (bool) _client.GetCalculationOption(calculationModel, optionName, out optionValue);
-        }
-
-        public Dictionary<string, string> GetCalculationOptions(string calculationModel)
-        {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(
-                    sc => { return _client.GetCalculationOptions(calculationModel); }
-                );
-                return vmsResult;
-            }
-            return (Dictionary<string, string>) _client.GetCalculationOptions(calculationModel);
-        }
-
-        public DoseValue GetDoseAtVolume(Structure structure, double volume, VolumePresentation volumePresentation,
-            DoseValuePresentation requestedDosePresentation)
-        {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
-                    {
-                        return _client.GetDoseAtVolume(structure._client, volume, volumePresentation,
-                            requestedDosePresentation);
-                    }
-                );
-                return vmsResult;
-            }
-            return (DoseValue) _client.GetDoseAtVolume(structure, volume, volumePresentation,
-                requestedDosePresentation);
-        }
-
-        public double GetVolumeAtDose(Structure structure, DoseValue dose,
-            VolumePresentation requestedVolumePresentation)
-        {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
-                    {
-                        return _client.GetVolumeAtDose(structure._client, dose, requestedVolumePresentation);
-                    }
-                );
-                return vmsResult;
-            }
-            return (double) _client.GetVolumeAtDose(structure, dose, requestedVolumePresentation);
-        }
-
-        public void SetCalculationModel(CalculationType calculationType, string model)
-        {
-            if (XC.Instance.CurrentContext != null)
-                XC.Instance.CurrentContext.Thread.Invoke(() => { _client.SetCalculationModel(calculationType, model); }
-                );
             else
-                _client.SetCalculationModel(calculationType, model);
+            {
+                return (System.Double)(_client.GetVolumeAtDose(structure, dose, requestedVolumePresentation));
+            }
         }
 
-        public bool SetCalculationOption(string calculationModel, string optionName, string optionValue)
+        public PlanSetup()
         {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
-                    {
-                        return _client.SetCalculationOption(calculationModel, optionName, optionValue);
-                    }
-                );
-                return vmsResult;
-            }
-            return (bool) _client.SetCalculationOption(calculationModel, optionName, optionValue);
+            _client = (new ExpandoObject());
+        }
+
+        public PlanSetup(dynamic client)
+        {
+            _client = (client);
         }
     }
 }
