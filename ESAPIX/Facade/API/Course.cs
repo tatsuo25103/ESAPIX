@@ -23,6 +23,160 @@ namespace ESAPIX.Facade.API
             _client = client;
         }
 
+        public string Id
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Id"))
+                        return _client.Id;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Id; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Id = value;
+            }
+        }
+
+        public IEnumerable<ExternalPlanSetup> ExternalPlanSetups
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("ExternalPlanSetups"))
+                        foreach (var item in _client.ExternalPlanSetups)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.ExternalPlanSetups;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new ExternalPlanSetup();
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                if (vms != null)
+                                    facade._client = vms;
+                            }
+                        );
+                        if (facade._client != null)
+                            yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.ExternalPlanSetups = value;
+            }
+        }
+
+        public IEnumerable<BrachyPlanSetup> BrachyPlanSetups
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("BrachyPlanSetups"))
+                        foreach (var item in _client.BrachyPlanSetups)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.BrachyPlanSetups;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new BrachyPlanSetup();
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                if (vms != null)
+                                    facade._client = vms;
+                            }
+                        );
+                        if (facade._client != null)
+                            yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.BrachyPlanSetups = value;
+            }
+        }
+
+        public IEnumerable<IonPlanSetup> IonPlanSetups
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("IonPlanSetups"))
+                        foreach (var item in _client.IonPlanSetups)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.IonPlanSetups;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new IonPlanSetup();
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                if (vms != null)
+                                    facade._client = vms;
+                            }
+                        );
+                        if (facade._client != null)
+                            yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.IonPlanSetups = value;
+            }
+        }
+
         public DateTime? CompletedDateTime
         {
             get
@@ -138,6 +292,50 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public IEnumerable<PlanSetup> PlanSetups
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("PlanSetups"))
+                        foreach (var item in _client.PlanSetups)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.PlanSetups;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new PlanSetup();
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                if (vms != null)
+                                    facade._client = vms;
+                            }
+                        );
+                        if (facade._client != null)
+                            yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.PlanSetups = value;
+            }
+        }
+
         public IEnumerable<PlanSum> PlanSums
         {
             get
@@ -204,158 +402,20 @@ namespace ESAPIX.Facade.API
             }
         }
 
-        public string Id
+        public IonPlanSetup AddIonPlanSetupAsVerificationPlan(StructureSet structureSet, string patientSupportDeviceId,
+            IonPlanSetup verifiedPlan)
         {
-            get
+            if (XC.Instance.CurrentContext != null)
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("Id"))
-                        return _client.Id;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Id; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.Id = value;
-            }
-        }
-
-        public IEnumerable<PlanSetup> PlanSetups
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                {
-                    if ((_client as ExpandoObject).HasProperty("PlanSetups"))
-                        foreach (var item in _client.PlanSetups)
-                            yield return item;
-                    else
-                        yield break;
-                }
-                else
-                {
-                    IEnumerator enumerator = null;
-                    XC.Instance.CurrentContext.Thread.Invoke(() =>
-                        {
-                            var asEnum = (IEnumerable) _client.PlanSetups;
-                            enumerator = asEnum.GetEnumerator();
-                        }
-                    );
-                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
                     {
-                        var facade = new PlanSetup();
-                        XC.Instance.CurrentContext.Thread.Invoke(() =>
-                            {
-                                var vms = enumerator.Current;
-                                if (vms != null)
-                                    facade._client = vms;
-                            }
-                        );
-                        if (facade._client != null)
-                            yield return facade;
+                        return new IonPlanSetup(_client.AddIonPlanSetupAsVerificationPlan(structureSet._client,
+                            patientSupportDeviceId, verifiedPlan._client));
                     }
-                }
+                );
+                return vmsResult;
             }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.PlanSetups = value;
-            }
-        }
-
-        public IEnumerable<ExternalPlanSetup> ExternalPlanSetups
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                {
-                    if ((_client as ExpandoObject).HasProperty("ExternalPlanSetups"))
-                        foreach (var item in _client.ExternalPlanSetups)
-                            yield return item;
-                    else
-                        yield break;
-                }
-                else
-                {
-                    IEnumerator enumerator = null;
-                    XC.Instance.CurrentContext.Thread.Invoke(() =>
-                        {
-                            var asEnum = (IEnumerable) _client.ExternalPlanSetups;
-                            enumerator = asEnum.GetEnumerator();
-                        }
-                    );
-                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
-                    {
-                        var facade = new ExternalPlanSetup();
-                        XC.Instance.CurrentContext.Thread.Invoke(() =>
-                            {
-                                var vms = enumerator.Current;
-                                if (vms != null)
-                                    facade._client = vms;
-                            }
-                        );
-                        if (facade._client != null)
-                            yield return facade;
-                    }
-                }
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.ExternalPlanSetups = value;
-            }
-        }
-
-        public IEnumerable<BrachyPlanSetup> BrachyPlanSetups
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                {
-                    if ((_client as ExpandoObject).HasProperty("BrachyPlanSetups"))
-                        foreach (var item in _client.BrachyPlanSetups)
-                            yield return item;
-                    else
-                        yield break;
-                }
-                else
-                {
-                    IEnumerator enumerator = null;
-                    XC.Instance.CurrentContext.Thread.Invoke(() =>
-                        {
-                            var asEnum = (IEnumerable) _client.BrachyPlanSetups;
-                            enumerator = asEnum.GetEnumerator();
-                        }
-                    );
-                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
-                    {
-                        var facade = new BrachyPlanSetup();
-                        XC.Instance.CurrentContext.Thread.Invoke(() =>
-                            {
-                                var vms = enumerator.Current;
-                                if (vms != null)
-                                    facade._client = vms;
-                            }
-                        );
-                        if (facade._client != null)
-                            yield return facade;
-                    }
-                }
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.BrachyPlanSetups = value;
-            }
+            return _client.AddIonPlanSetupAsVerificationPlan(structureSet, patientSupportDeviceId, verifiedPlan);
         }
 
         public ExternalPlanSetup AddExternalPlanSetup(StructureSet structureSet)
@@ -388,6 +448,20 @@ namespace ESAPIX.Facade.API
             return _client.AddExternalPlanSetupAsVerificationPlan(structureSet, verifiedPlan);
         }
 
+        public IonPlanSetup AddIonPlanSetup(StructureSet structureSet, string patientSupportDeviceId)
+        {
+            if (XC.Instance.CurrentContext != null)
+            {
+                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return new IonPlanSetup(_client.AddIonPlanSetup(structureSet._client, patientSupportDeviceId));
+                    }
+                );
+                return vmsResult;
+            }
+            return _client.AddIonPlanSetup(structureSet, patientSupportDeviceId);
+        }
+
         public bool CanAddPlanSetup(StructureSet structureSet)
         {
             if (XC.Instance.CurrentContext != null)
@@ -410,6 +484,36 @@ namespace ESAPIX.Facade.API
                 return vmsResult;
             }
             return (bool) _client.CanRemovePlanSetup(planSetup);
+        }
+
+        public PlanSetup CopyPlanSetup(PlanSetup sourcePlan)
+        {
+            if (XC.Instance.CurrentContext != null)
+            {
+                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return new PlanSetup(_client.CopyPlanSetup(sourcePlan._client));
+                    }
+                );
+                return vmsResult;
+            }
+            return _client.CopyPlanSetup(sourcePlan);
+        }
+
+        public PlanSetup CopyPlanSetup(PlanSetup sourcePlan, StructureSet structureset,
+            System.Text.StringBuilder outputDiagnostics)
+        {
+            if (XC.Instance.CurrentContext != null)
+            {
+                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return new PlanSetup(_client.CopyPlanSetup(sourcePlan._client, structureset._client,
+                            outputDiagnostics));
+                    }
+                );
+                return vmsResult;
+            }
+            return _client.CopyPlanSetup(sourcePlan, structureset, outputDiagnostics);
         }
 
         public void RemovePlanSetup(PlanSetup planSetup)

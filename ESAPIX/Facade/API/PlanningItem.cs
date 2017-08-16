@@ -1,6 +1,8 @@
 #region
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Dynamic;
 using ESAPIX.Extensions;
 using VMS.TPS.Common.Model.Types;
@@ -93,6 +95,50 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public IEnumerable<Structure> StructuresSelectedForDvh
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("StructuresSelectedForDvh"))
+                        foreach (var item in _client.StructuresSelectedForDvh)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.StructuresSelectedForDvh;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new Structure();
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                if (vms != null)
+                                    facade._client = vms;
+                            }
+                        );
+                        if (facade._client != null)
+                            yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.StructuresSelectedForDvh = value;
+            }
+        }
+
         public DVHData GetDVHCumulativeData(Structure structure, DoseValuePresentation dosePresentation,
             VolumePresentation volumePresentation, double binWidth)
         {
@@ -107,6 +153,38 @@ namespace ESAPIX.Facade.API
                 return vmsResult;
             }
             return _client.GetDVHCumulativeData(structure, dosePresentation, volumePresentation, binWidth);
+        }
+
+        public DoseValue GetDoseAtVolume(Structure structure, double volume, VolumePresentation volumePresentation,
+            DoseValuePresentation requestedDosePresentation)
+        {
+            if (XC.Instance.CurrentContext != null)
+            {
+                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.GetDoseAtVolume(structure._client, volume, volumePresentation,
+                            requestedDosePresentation);
+                    }
+                );
+                return vmsResult;
+            }
+            return (DoseValue) _client.GetDoseAtVolume(structure, volume, volumePresentation,
+                requestedDosePresentation);
+        }
+
+        public double GetVolumeAtDose(Structure structure, DoseValue dose,
+            VolumePresentation requestedVolumePresentation)
+        {
+            if (XC.Instance.CurrentContext != null)
+            {
+                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return _client.GetVolumeAtDose(structure._client, dose, requestedVolumePresentation);
+                    }
+                );
+                return vmsResult;
+            }
+            return (double) _client.GetVolumeAtDose(structure, dose, requestedVolumePresentation);
         }
     }
 }

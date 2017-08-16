@@ -8,7 +8,7 @@ using XC = ESAPIX.Facade.XContext;
 
 namespace ESAPIX.Facade.API
 {
-    public class User : ApiDataObject, System.Xml.Serialization.IXmlSerializable
+    public class User : SerializableObject, System.Xml.Serialization.IXmlSerializable
     {
         public User()
         {
@@ -18,6 +18,28 @@ namespace ESAPIX.Facade.API
         public User(dynamic client)
         {
             _client = client;
+        }
+
+        public string Id
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Id"))
+                        return _client.Id;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Id; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Id = value;
+            }
         }
 
         public string Language
@@ -38,8 +60,30 @@ namespace ESAPIX.Facade.API
             set
             {
                 if (_client is ExpandoObject)
-                {
                     _client.Language = value;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Name"))
+                        return _client.Name;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Name; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                {
+                    _client.Name = value;
                 }
             }
         }

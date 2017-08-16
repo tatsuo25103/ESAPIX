@@ -66,6 +66,50 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public IEnumerable<ApplicationScriptLog> ApplicationScriptLogs
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("ApplicationScriptLogs"))
+                        foreach (var item in _client.ApplicationScriptLogs)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.ApplicationScriptLogs;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new ApplicationScriptLog();
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                if (vms != null)
+                                    facade._client = vms;
+                            }
+                        );
+                        if (facade._client != null)
+                            yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.ApplicationScriptLogs = value;
+            }
+        }
+
         public Image Image
         {
             get
@@ -90,6 +134,33 @@ namespace ESAPIX.Facade.API
             {
                 if (_client is ExpandoObject)
                     _client.Image = value;
+            }
+        }
+
+        public Patient Patient
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Patient"))
+                        return _client.Patient;
+                    else
+                        return default(Patient);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                        {
+                            if (_client.Patient != null)
+                                return new Patient(_client.Patient);
+                            return null;
+                        }
+                    );
+                return default(Patient);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Patient = value;
             }
         }
 

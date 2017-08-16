@@ -421,6 +421,20 @@ namespace ESAPIX.Facade.API
                 gantryDirection, patientSupportAngle, isocenter);
         }
 
+        public EvaluationDose CopyEvaluationDose(Dose existing)
+        {
+            if (XC.Instance.CurrentContext != null)
+            {
+                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return new EvaluationDose(_client.CopyEvaluationDose(existing._client));
+                    }
+                );
+                return vmsResult;
+            }
+            return _client.CopyEvaluationDose(existing);
+        }
+
         public EvaluationDose CreateEvaluationDose()
         {
             if (XC.Instance.CurrentContext != null)

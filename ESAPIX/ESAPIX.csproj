@@ -92,8 +92,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="VMS.TPS.Common.Model.Types">
-      <HintPath>lib\VMS.TPS.Common.Model.Types.dll</HintPath>
+    <Reference Include="VMS.TPS.Common.Model.Interface">
+      <HintPath>..\ESAPIX_FacadeBuilder\ESAPIX_FacadeBuilder\DLL Versions\15.1\VMS.TPS.Common.Model.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="VMS.TPS.Common.Model.Types, Version=13.6.30.20230, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ESAPIX_FacadeBuilder\ESAPIX_FacadeBuilder\DLL Versions\15.1\VMS.TPS.Common.Model.Types.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -171,13 +175,17 @@
     <Compile Include="Facade\API\AddOnMaterial.cs" />
     <Compile Include="Facade\API\ApiDataObject.cs" />
     <Compile Include="Facade\API\Application.cs" />
+    <Compile Include="Facade\API\ApplicationScript.cs" />
+    <Compile Include="Facade\API\ApplicationScriptLog.cs" />
     <Compile Include="Facade\API\Applicator.cs" />
     <Compile Include="Facade\API\Beam.cs" />
     <Compile Include="Facade\API\BeamCalculationLog.cs" />
     <Compile Include="Facade\API\BeamDose.cs" />
     <Compile Include="Facade\API\BeamParameters.cs" />
+    <Compile Include="Facade\API\BeamUncertainty.cs" />
     <Compile Include="Facade\API\Block.cs" />
     <Compile Include="Facade\API\Bolus.cs" />
+    <Compile Include="Facade\API\BrachyFieldReferencePoint.cs" />
     <Compile Include="Facade\API\BrachyPlanSetup.cs" />
     <Compile Include="Facade\API\BrachySolidApplicator.cs" />
     <Compile Include="Facade\API\BrachyTreatmentUnit.cs" />
@@ -200,7 +208,21 @@
     <Compile Include="Facade\API\Fractionation.cs" />
     <Compile Include="Facade\API\Hospital.cs" />
     <Compile Include="Facade\API\Image.cs" />
+    <Compile Include="Facade\API\IonBeam.cs" />
+    <Compile Include="Facade\API\IonBeamParameters.cs" />
+    <Compile Include="Facade\API\IonControlPoint.cs" />
+    <Compile Include="Facade\API\IonControlPointCollection.cs" />
+    <Compile Include="Facade\API\IonControlPointPair.cs" />
+    <Compile Include="Facade\API\IonControlPointPairCollection.cs" />
+    <Compile Include="Facade\API\IonControlPointParameters.cs" />
+    <Compile Include="Facade\API\IonPlanSetup.cs" />
+    <Compile Include="Facade\API\IonSpot.cs" />
+    <Compile Include="Facade\API\IonSpotCollection.cs" />
+    <Compile Include="Facade\API\IonSpotParameters.cs" />
+    <Compile Include="Facade\API\IonSpotParametersCollection.cs" />
     <Compile Include="Facade\API\Isodose.cs" />
+    <Compile Include="Facade\API\LateralSpreadingDevice.cs" />
+    <Compile Include="Facade\API\LateralSpreadingDeviceSettings.cs" />
     <Compile Include="Facade\API\MLC.cs" />
     <Compile Include="Facade\API\OptimizationEUDObjective.cs" />
     <Compile Include="Facade\API\OptimizationIMRTBeamParameter.cs" />
@@ -221,11 +243,21 @@
     <Compile Include="Facade\API\PlanSetup.cs" />
     <Compile Include="Facade\API\PlanSum.cs" />
     <Compile Include="Facade\API\PlanSumComponent.cs" />
+    <Compile Include="Facade\API\PlanUncertainty.cs" />
+    <Compile Include="Facade\API\ProtocolPhaseMeasure.cs" />
+    <Compile Include="Facade\API\ProtocolPhasePrescription.cs" />
     <Compile Include="Facade\API\RadioactiveSource.cs" />
     <Compile Include="Facade\API\RadioactiveSourceModel.cs" />
+    <Compile Include="Facade\API\RangeModulator.cs" />
+    <Compile Include="Facade\API\RangeModulatorSettings.cs" />
+    <Compile Include="Facade\API\RangeShifter.cs" />
+    <Compile Include="Facade\API\RangeShifterSettings.cs" />
     <Compile Include="Facade\API\ReferencePoint.cs" />
     <Compile Include="Facade\API\Registration.cs" />
+    <Compile Include="Facade\API\RTPrescription.cs" />
+    <Compile Include="Facade\API\RTPrescriptionTarget.cs" />
     <Compile Include="Facade\API\ScriptContext.cs" />
+    <Compile Include="Facade\API\ScriptEnvironment.cs" />
     <Compile Include="Facade\API\SeedCollection.cs" />
     <Compile Include="Facade\API\SegmentVolume.cs" />
     <Compile Include="Facade\API\SerializableObject.cs" />

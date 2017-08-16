@@ -19,6 +19,8 @@ namespace ESAPIX.Interfaces
     {
         string ApplicationName { get; }
 
+        System.String VersionInfo { get; }
+
         BrachyPlanSetup BrachyPlanSetup { get; }
 
         IEnumerable<BrachyPlanSetup> BrachyPlansInScope { get; }
@@ -34,6 +36,10 @@ namespace ESAPIX.Interfaces
         ExternalPlanSetup ExternalPlanSetup { get; }
 
         IEnumerable<ExternalPlanSetup> ExternalPlansInScope { get; }
+
+        ESAPIX.Facade.API.IonPlanSetup IonPlanSetup { get; }
+
+        IEnumerable<ESAPIX.Facade.API.IonPlanSetup> IonPlansInScope { get;  }
 
         PlanSetup PlanSetup { get; }
 
@@ -74,6 +80,7 @@ namespace ESAPIX.Interfaces
         event PlanSetupChangedHandler PlanSetupChanged;
         event ExternalPlanSetupChangedHandler ExternalPlanSetupChanged;
         event PlanSetupChangedHandler BrachyPlanSetupChanged;
+        event IonPlanSetupChangedHandler IonPlanSetupChanged;
         event CourseChangedHandler CourseChanged;
 
         #endregion

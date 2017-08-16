@@ -70,6 +70,28 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public System.Windows.Point[][] Outline
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Outline"))
+                        return _client.Outline;
+                    else
+                        return default(System.Windows.Point[][]);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Outline; }
+                    );
+                return default(System.Windows.Point[][]);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Outline = value;
+            }
+        }
+
         public double TransmissionFactor
         {
             get

@@ -23,6 +23,311 @@ namespace ESAPIX.Facade.API
             _client = client;
         }
 
+        public string Id
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Id"))
+                        return _client.Id;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Id; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Id = value;
+            }
+        }
+
+        public double PlanNormalizationValue
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("PlanNormalizationValue"))
+                        return _client.PlanNormalizationValue;
+                    else
+                        return default(double);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PlanNormalizationValue; }
+                    );
+                return default(double);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.PlanNormalizationValue = value;
+            }
+        }
+
+        public IEnumerable<PlanUncertainty> PlanUncertainties
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("PlanUncertainties"))
+                        foreach (var item in _client.PlanUncertainties)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.PlanUncertainties;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new PlanUncertainty();
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                if (vms != null)
+                                    facade._client = vms;
+                            }
+                        );
+                        if (facade._client != null)
+                            yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.PlanUncertainties = value;
+            }
+        }
+
+        public IEnumerable<string> PlanObjectiveStructures
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("PlanObjectiveStructures"))
+                        foreach (var item in _client.PlanObjectiveStructures)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.PlanObjectiveStructures;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = default(string);
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                facade = (string) vms;
+                            }
+                        );
+                        yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.PlanObjectiveStructures = value;
+            }
+        }
+
+        public IEnumerable<ApprovalHistoryEntry> ApprovalHistory
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("ApprovalHistory"))
+                        foreach (var item in _client.ApprovalHistory)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.ApprovalHistory;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = default(ApprovalHistoryEntry);
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                facade = (ApprovalHistoryEntry) vms;
+                            }
+                        );
+                        yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.ApprovalHistory = value;
+            }
+        }
+
+        public DoseValue DosePerFractionInPrimaryRefPoint
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("DosePerFractionInPrimaryRefPoint"))
+                        return _client.DosePerFractionInPrimaryRefPoint;
+                    else
+                        return default(DoseValue);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(
+                        sc => { return _client.DosePerFractionInPrimaryRefPoint; }
+                    );
+                return default(DoseValue);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.DosePerFractionInPrimaryRefPoint = value;
+            }
+        }
+
+        public DoseValue PrescribedDosePerFraction
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("PrescribedDosePerFraction"))
+                        return _client.PrescribedDosePerFraction;
+                    else
+                        return default(DoseValue);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PrescribedDosePerFraction; }
+                    );
+                return default(DoseValue);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.PrescribedDosePerFraction = value;
+            }
+        }
+
+        public double PrescribedPercentage
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("PrescribedPercentage"))
+                        return _client.PrescribedPercentage;
+                    else
+                        return default(double);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PrescribedPercentage; }
+                    );
+                return default(double);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.PrescribedPercentage = value;
+            }
+        }
+
+        public DoseValue TotalPrescribedDose
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("TotalPrescribedDose"))
+                        return _client.TotalPrescribedDose;
+                    else
+                        return default(DoseValue);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.TotalPrescribedDose; }
+                    );
+                return default(DoseValue);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.TotalPrescribedDose = value;
+            }
+        }
+
+        public IEnumerable<ApplicationScriptLog> ApplicationScriptLogs
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("ApplicationScriptLogs"))
+                        foreach (var item in _client.ApplicationScriptLogs)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.ApplicationScriptLogs;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new ApplicationScriptLog();
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                if (vms != null)
+                                    facade._client = vms;
+                            }
+                        );
+                        if (facade._client != null)
+                            yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.ApplicationScriptLogs = value;
+            }
+        }
+
         public PlanSetupApprovalStatus ApprovalStatus
         {
             get
@@ -135,6 +440,28 @@ namespace ESAPIX.Facade.API
             {
                 if (_client is ExpandoObject)
                     _client.CreationUserName = value;
+            }
+        }
+
+        public DoseValue DosePerFraction
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("DosePerFraction"))
+                        return _client.DosePerFraction;
+                    else
+                        return default(DoseValue);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.DosePerFraction; }
+                    );
+                return default(DoseValue);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.DosePerFraction = value;
             }
         }
 
@@ -270,6 +597,28 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public int? NumberOfFractions
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("NumberOfFractions"))
+                        return _client.NumberOfFractions;
+                    else
+                        return default(int?);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.NumberOfFractions; }
+                    );
+                return default(int?);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.NumberOfFractions = value;
+            }
+        }
+
         public OptimizationSetup OptimizationSetup
         {
             get
@@ -363,6 +712,28 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public DoseValue PlannedDosePerFraction
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("PlannedDosePerFraction"))
+                        return _client.PlannedDosePerFraction;
+                    else
+                        return default(DoseValue);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PlannedDosePerFraction; }
+                    );
+                return default(DoseValue);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.PlannedDosePerFraction = value;
+            }
+        }
+
         public string PlanningApprovalDate
         {
             get
@@ -404,6 +775,28 @@ namespace ESAPIX.Facade.API
             {
                 if (_client is ExpandoObject)
                     _client.PlanningApprover = value;
+            }
+        }
+
+        public string PlanningApproverDisplayName
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("PlanningApproverDisplayName"))
+                        return _client.PlanningApproverDisplayName;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PlanningApproverDisplayName; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.PlanningApproverDisplayName = value;
             }
         }
 
@@ -473,25 +866,30 @@ namespace ESAPIX.Facade.API
             }
         }
 
-        public double PrescribedPercentage
+        public PlanSetup PredecessorPlan
         {
             get
             {
                 if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PrescribedPercentage"))
-                        return _client.PrescribedPercentage;
+                    if (((ExpandoObject) _client).HasProperty("PredecessorPlan"))
+                        return _client.PredecessorPlan;
                     else
-                        return default(double);
+                        return default(PlanSetup);
                 if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PrescribedPercentage; }
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                        {
+                            if (_client.PredecessorPlan != null)
+                                return new PlanSetup(_client.PredecessorPlan);
+                            return null;
+                        }
                     );
-                return default(double);
+                return default(PlanSetup);
             }
 
             set
             {
                 if (_client is ExpandoObject)
-                    _client.PrescribedPercentage = value;
+                    _client.PredecessorPlan = value;
             }
         }
 
@@ -610,6 +1008,77 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public IEnumerable<ReferencePoint> ReferencePoints
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("ReferencePoints"))
+                        foreach (var item in _client.ReferencePoints)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.ReferencePoints;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new ReferencePoint();
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                if (vms != null)
+                                    facade._client = vms;
+                            }
+                        );
+                        if (facade._client != null)
+                            yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.ReferencePoints = value;
+            }
+        }
+
+        public RTPrescription RTPrescription
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("RTPrescription"))
+                        return _client.RTPrescription;
+                    else
+                        return default(RTPrescription);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                        {
+                            if (_client.RTPrescription != null)
+                                return new RTPrescription(_client.RTPrescription);
+                            return null;
+                        }
+                    );
+                return default(RTPrescription);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.RTPrescription = value;
+            }
+        }
+
         public Series Series
         {
             get
@@ -708,17 +1177,17 @@ namespace ESAPIX.Facade.API
             }
         }
 
-        public DoseValue TotalPrescribedDose
+        public DoseValue TotalDose
         {
             get
             {
                 if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("TotalPrescribedDose"))
-                        return _client.TotalPrescribedDose;
+                    if (((ExpandoObject) _client).HasProperty("TotalDose"))
+                        return _client.TotalDose;
                     else
                         return default(DoseValue);
                 if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.TotalPrescribedDose; }
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.TotalDose; }
                     );
                 return default(DoseValue);
             }
@@ -726,7 +1195,7 @@ namespace ESAPIX.Facade.API
             set
             {
                 if (_client is ExpandoObject)
-                    _client.TotalPrescribedDose = value;
+                    _client.TotalDose = value;
             }
         }
 
@@ -774,6 +1243,28 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public string TreatmentApproverDisplayName
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("TreatmentApproverDisplayName"))
+                        return _client.TreatmentApproverDisplayName;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.TreatmentApproverDisplayName; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.TreatmentApproverDisplayName = value;
+            }
+        }
+
         public PatientOrientation TreatmentOrientation
         {
             get
@@ -796,6 +1287,28 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public double TreatmentPercentage
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("TreatmentPercentage"))
+                        return _client.TreatmentPercentage;
+                    else
+                        return default(double);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.TreatmentPercentage; }
+                    );
+                return default(double);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.TreatmentPercentage = value;
+            }
+        }
+
         public string UID
         {
             get
@@ -815,33 +1328,6 @@ namespace ESAPIX.Facade.API
             {
                 if (_client is ExpandoObject)
                     _client.UID = value;
-            }
-        }
-
-        public Fractionation UniqueFractionation
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("UniqueFractionation"))
-                        return _client.UniqueFractionation;
-                    else
-                        return default(Fractionation);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc =>
-                        {
-                            if (_client.UniqueFractionation != null)
-                                return new Fractionation(_client.UniqueFractionation);
-                            return null;
-                        }
-                    );
-                return default(Fractionation);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.UniqueFractionation = value;
             }
         }
 
@@ -872,48 +1358,39 @@ namespace ESAPIX.Facade.API
             }
         }
 
-        public string Id
+        public void GetProtocolPrescriptionsAndMeasures(ref List<ProtocolPhasePrescription> prescriptions,
+            ref List<ProtocolPhaseMeasure> measures)
         {
-            get
+            if (XC.Instance.CurrentContext != null)
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("Id"))
-                        return _client.Id;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Id; }
-                    );
-                return default(string);
+                var prescriptions_REF = prescriptions;
+                var measures_REF = measures;
+                XC.Instance.CurrentContext.Thread.Invoke(() =>
+                    {
+                        _client.GetProtocolPrescriptionsAndMeasures(ref prescriptions_REF, ref measures_REF);
+                    }
+                );
+                prescriptions = prescriptions_REF;
+                measures = measures_REF;
             }
-
-            set
+            else
             {
-                if (_client is ExpandoObject)
-                    _client.Id = value;
+                _client.GetProtocolPrescriptionsAndMeasures(ref prescriptions, ref measures);
             }
         }
 
-        public double PlanNormalizationValue
+        public ReferencePoint AddReferencePoint(Structure structure, VVector? location, string id, string name)
         {
-            get
+            if (XC.Instance.CurrentContext != null)
             {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("PlanNormalizationValue"))
-                        return _client.PlanNormalizationValue;
-                    else
-                        return default(double);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.PlanNormalizationValue; }
-                    );
-                return default(double);
+                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
+                    {
+                        return new ReferencePoint(_client.AddReferencePoint(structure._client, location, id, name));
+                    }
+                );
+                return vmsResult;
             }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.PlanNormalizationValue = value;
-            }
+            return _client.AddReferencePoint(structure, location, id, name);
         }
 
         public void ClearCalculationModel(CalculationType calculationType)
@@ -965,38 +1442,6 @@ namespace ESAPIX.Facade.API
             return (Dictionary<string, string>) _client.GetCalculationOptions(calculationModel);
         }
 
-        public DoseValue GetDoseAtVolume(Structure structure, double volume, VolumePresentation volumePresentation,
-            DoseValuePresentation requestedDosePresentation)
-        {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
-                    {
-                        return _client.GetDoseAtVolume(structure._client, volume, volumePresentation,
-                            requestedDosePresentation);
-                    }
-                );
-                return vmsResult;
-            }
-            return (DoseValue) _client.GetDoseAtVolume(structure, volume, volumePresentation,
-                requestedDosePresentation);
-        }
-
-        public double GetVolumeAtDose(Structure structure, DoseValue dose,
-            VolumePresentation requestedVolumePresentation)
-        {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
-                    {
-                        return _client.GetVolumeAtDose(structure._client, dose, requestedVolumePresentation);
-                    }
-                );
-                return vmsResult;
-            }
-            return (double) _client.GetVolumeAtDose(structure, dose, requestedVolumePresentation);
-        }
-
         public void SetCalculationModel(CalculationType calculationType, string model)
         {
             if (XC.Instance.CurrentContext != null)
@@ -1018,6 +1463,18 @@ namespace ESAPIX.Facade.API
                 return vmsResult;
             }
             return (bool) _client.SetCalculationOption(calculationModel, optionName, optionValue);
+        }
+
+        public void SetPrescription(int numberOfFractions, DoseValue dosePerFraction, double treatmentPercentage)
+        {
+            if (XC.Instance.CurrentContext != null)
+                XC.Instance.CurrentContext.Thread.Invoke(() =>
+                    {
+                        _client.SetPrescription(numberOfFractions, dosePerFraction, treatmentPercentage);
+                    }
+                );
+            else
+                _client.SetPrescription(numberOfFractions, dosePerFraction, treatmentPercentage);
         }
     }
 }

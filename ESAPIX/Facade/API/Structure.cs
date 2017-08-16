@@ -3,8 +3,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
 using ESAPIX.Extensions;
 using VMS.TPS.Common.Model.Types;
 using XC = ESAPIX.Facade.XContext;
@@ -23,6 +21,28 @@ namespace ESAPIX.Facade.API
         public Structure(dynamic client)
         {
             _client = client;
+        }
+
+        public string Id
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Id"))
+                        return _client.Id;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Id; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Id = value;
+            }
         }
 
         public VVector CenterPoint
@@ -47,7 +67,7 @@ namespace ESAPIX.Facade.API
             }
         }
 
-        public Color Color
+        public System.Windows.Media.Color Color
         {
             get
             {
@@ -55,11 +75,11 @@ namespace ESAPIX.Facade.API
                     if (((ExpandoObject) _client).HasProperty("Color"))
                         return _client.Color;
                     else
-                        return default(Color);
+                        return default(System.Windows.Media.Color);
                 if (XC.Instance.CurrentContext != null)
                     return XC.Instance.CurrentContext.GetValue(sc => { return _client.Color; }
                     );
-                return default(Color);
+                return default(System.Windows.Media.Color);
             }
 
             set
@@ -157,7 +177,7 @@ namespace ESAPIX.Facade.API
             }
         }
 
-        public MeshGeometry3D MeshGeometry
+        public System.Windows.Media.Media3D.MeshGeometry3D MeshGeometry
         {
             get
             {
@@ -165,29 +185,11 @@ namespace ESAPIX.Facade.API
                     if (((ExpandoObject) _client).HasProperty("MeshGeometry"))
                         return _client.MeshGeometry;
                     else
-                        return default(MeshGeometry3D);
+                        return default(System.Windows.Media.Media3D.MeshGeometry3D);
                 if (XC.Instance.CurrentContext != null)
-                {
-                    var mesh = new MeshGeometry3D();
-                    var points = new Point3D[] { };
-                    var normals = new Vector3D[] { };
-                    var indices = new int[] { };
-                    XC.Instance.CurrentContext.Thread.Invoke(() =>
-                        {
-                            points = new Point3D[_client.MeshGeometry.Positions.Count];
-                            normals = new Vector3D[_client.MeshGeometry.Normals.Count];
-                            indices = new int[_client.MeshGeometry.TriangleIndices.Count];
-                            _client.MeshGeometry.Positions.CopyTo(points, 0);
-                            _client.MeshGeometry.Normals.CopyTo(normals, 0);
-                            _client.MeshGeometry.TriangleIndices.CopyTo(indices, 0);
-                        }
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.MeshGeometry; }
                     );
-                    mesh.Positions = new Point3DCollection(points);
-                    mesh.Normals = new Vector3DCollection(normals);
-                    mesh.TriangleIndices = new Int32Collection(indices);
-                    return mesh;
-                }
-                return default(MeshGeometry3D);
+                return default(System.Windows.Media.Media3D.MeshGeometry3D);
             }
 
             set
@@ -310,28 +312,6 @@ namespace ESAPIX.Facade.API
             }
         }
 
-        public string Id
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("Id"))
-                        return _client.Id;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Id; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.Id = value;
-            }
-        }
-
         public void AddContourOnImagePlane(VVector[] contour, int z)
         {
             if (XC.Instance.CurrentContext != null)
@@ -400,6 +380,18 @@ namespace ESAPIX.Facade.API
                 );
             else
                 _client.ClearAllContoursOnImagePlane(z);
+        }
+
+        public void ConvertDoseLevelToStructure(Dose dose, DoseValue doseLevel)
+        {
+            if (XC.Instance.CurrentContext != null)
+                XC.Instance.CurrentContext.Thread.Invoke(() =>
+                    {
+                        _client.ConvertDoseLevelToStructure(dose._client, doseLevel);
+                    }
+                );
+            else
+                _client.ConvertDoseLevelToStructure(dose, doseLevel);
         }
 
         public void ConvertToHighResolution()

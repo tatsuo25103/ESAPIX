@@ -88,6 +88,94 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public RegistrationApprovalStatus Status
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Status"))
+                        return _client.Status;
+                    else
+                        return default(RegistrationApprovalStatus);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Status; }
+                    );
+                return default(RegistrationApprovalStatus);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Status = value;
+            }
+        }
+
+        public DateTime? StatusDateTime
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("StatusDateTime"))
+                        return _client.StatusDateTime;
+                    else
+                        return default(DateTime?);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.StatusDateTime; }
+                    );
+                return default(DateTime?);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.StatusDateTime = value;
+            }
+        }
+
+        public string StatusUserDisplayName
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("StatusUserDisplayName"))
+                        return _client.StatusUserDisplayName;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.StatusUserDisplayName; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.StatusUserDisplayName = value;
+            }
+        }
+
+        public string StatusUserName
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("StatusUserName"))
+                        return _client.StatusUserName;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.StatusUserName; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.StatusUserName = value;
+            }
+        }
+
         public double[,] TransformationMatrix
         {
             get
@@ -107,6 +195,28 @@ namespace ESAPIX.Facade.API
             {
                 if (_client is ExpandoObject)
                     _client.TransformationMatrix = value;
+            }
+        }
+
+        public string UID
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("UID"))
+                        return _client.UID;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.UID; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.UID = value;
             }
         }
 

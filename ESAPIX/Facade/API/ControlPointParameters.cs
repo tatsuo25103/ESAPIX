@@ -72,6 +72,28 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public int Index
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Index"))
+                        return _client.Index;
+                    else
+                        return default(int);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Index; }
+                    );
+                return default(int);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Index = value;
+            }
+        }
+
         public VRect<double> JawPositions
         {
             get

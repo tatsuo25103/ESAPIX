@@ -109,6 +109,28 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public string HistoryUserDisplayName
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("HistoryUserDisplayName"))
+                        return _client.HistoryUserDisplayName;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.HistoryUserDisplayName; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.HistoryUserDisplayName = value;
+            }
+        }
+
         public DateTime HistoryDateTime
         {
             get

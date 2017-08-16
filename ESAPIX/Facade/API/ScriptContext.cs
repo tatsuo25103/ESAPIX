@@ -254,6 +254,33 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public IonPlanSetup IonPlanSetup
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("IonPlanSetup"))
+                        return _client.IonPlanSetup;
+                    else
+                        return default(IonPlanSetup);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                        {
+                            if (_client.IonPlanSetup != null)
+                                return new IonPlanSetup(_client.IonPlanSetup);
+                            return null;
+                        }
+                    );
+                return default(IonPlanSetup);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.IonPlanSetup = value;
+            }
+        }
+
         public IEnumerable<PlanSetup> PlansInScope
         {
             get
@@ -383,6 +410,50 @@ namespace ESAPIX.Facade.API
             {
                 if (_client is ExpandoObject)
                     _client.BrachyPlansInScope = value;
+            }
+        }
+
+        public IEnumerable<IonPlanSetup> IonPlansInScope
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("IonPlansInScope"))
+                        foreach (var item in _client.IonPlansInScope)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.IonPlansInScope;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new IonPlanSetup();
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                if (vms != null)
+                                    facade._client = vms;
+                            }
+                        );
+                        if (facade._client != null)
+                            yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.IonPlansInScope = value;
             }
         }
 

@@ -3,7 +3,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Windows.Media;
 using ESAPIX.Extensions;
 using XC = ESAPIX.Facade.XContext;
 
@@ -23,7 +22,51 @@ namespace ESAPIX.Facade.API
             _client = client;
         }
 
-        public Color Color
+        public IEnumerable<BrachyFieldReferencePoint> BrachyFieldReferencePoints
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                {
+                    if ((_client as ExpandoObject).HasProperty("BrachyFieldReferencePoints"))
+                        foreach (var item in _client.BrachyFieldReferencePoints)
+                            yield return item;
+                    else
+                        yield break;
+                }
+                else
+                {
+                    IEnumerator enumerator = null;
+                    XC.Instance.CurrentContext.Thread.Invoke(() =>
+                        {
+                            var asEnum = (IEnumerable) _client.BrachyFieldReferencePoints;
+                            enumerator = asEnum.GetEnumerator();
+                        }
+                    );
+                    while (XC.Instance.CurrentContext.GetValue(sc => enumerator.MoveNext()))
+                    {
+                        var facade = new BrachyFieldReferencePoint();
+                        XC.Instance.CurrentContext.Thread.Invoke(() =>
+                            {
+                                var vms = enumerator.Current;
+                                if (vms != null)
+                                    facade._client = vms;
+                            }
+                        );
+                        if (facade._client != null)
+                            yield return facade;
+                    }
+                }
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.BrachyFieldReferencePoints = value;
+            }
+        }
+
+        public System.Windows.Media.Color Color
         {
             get
             {
@@ -31,11 +74,11 @@ namespace ESAPIX.Facade.API
                     if (((ExpandoObject) _client).HasProperty("Color"))
                         return _client.Color;
                     else
-                        return default(Color);
+                        return default(System.Windows.Media.Color);
                 if (XC.Instance.CurrentContext != null)
                     return XC.Instance.CurrentContext.GetValue(sc => { return _client.Color; }
                     );
-                return default(Color);
+                return default(System.Windows.Media.Color);
             }
 
             set

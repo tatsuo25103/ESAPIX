@@ -23,6 +23,28 @@ namespace ESAPIX.Facade.API
             _client = client;
         }
 
+        public bool UseJawTracking
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("UseJawTracking"))
+                        return _client.UseJawTracking;
+                    else
+                        return default(bool);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.UseJawTracking; }
+                    );
+                return default(bool);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.UseJawTracking = value;
+            }
+        }
+
         public IEnumerable<OptimizationObjective> Objectives
         {
             get
@@ -108,28 +130,6 @@ namespace ESAPIX.Facade.API
             {
                 if (_client is ExpandoObject)
                     _client.Parameters = value;
-            }
-        }
-
-        public bool UseJawTracking
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("UseJawTracking"))
-                        return _client.UseJawTracking;
-                    else
-                        return default(bool);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.UseJawTracking; }
-                    );
-                return default(bool);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.UseJawTracking = value;
             }
         }
 
@@ -244,22 +244,6 @@ namespace ESAPIX.Facade.API
                 );
             else
                 _client.RemoveParameter(parameter);
-        }
-
-        public OptimizationPointCloudParameter AddStructurePointCloudParameter(Structure structure,
-            double pointResolutionInMM)
-        {
-            if (XC.Instance.CurrentContext != null)
-            {
-                var vmsResult = XC.Instance.CurrentContext.GetValue(sc =>
-                    {
-                        return new OptimizationPointCloudParameter(
-                            _client.AddStructurePointCloudParameter(structure._client, pointResolutionInMM));
-                    }
-                );
-                return vmsResult;
-            }
-            return _client.AddStructurePointCloudParameter(structure, pointResolutionInMM);
         }
     }
 }

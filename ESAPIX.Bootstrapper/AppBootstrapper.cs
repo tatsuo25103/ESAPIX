@@ -26,13 +26,11 @@ namespace ESAPIX.Bootstrapper
         /// <summary>
         /// Constructs a bootstrapper for standalone applications from a username, password
         /// </summary>
-        /// <param name="vmsUsername">username for VMS access</param>
-        /// <param name="vmsPassword">password for VMS access</param>
         /// <param name="singleThread">indicates whether or not to use a single thread (default is multithread)</param>
-        public AppBootstrapper(string vmsUsername, string vmsPassword, bool singleThread = false)
+        public AppBootstrapper(bool singleThread = false)
         {
             FacadeInitializer.Initialize();
-            _ctx = StandAloneContext.Create(vmsUsername, vmsPassword, singleThread);
+            _ctx = StandAloneContext.Create(singleThread);
             _ea = new EventAggregator();
         }
 

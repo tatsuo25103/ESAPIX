@@ -436,15 +436,6 @@ namespace ESAPIX.Facade.API
                 _client.GetVoxels(planeIndex, preallocatedBuffer);
         }
 
-        public void SetVoxels(int planeIndex, int[,] values)
-        {
-            if (XC.Instance.CurrentContext != null)
-                XC.Instance.CurrentContext.Thread.Invoke(() => { _client.SetVoxels(planeIndex, values); }
-                );
-            else
-                _client.SetVoxels(planeIndex, values);
-        }
-
         public DoseValue VoxelToDoseValue(int voxelValue)
         {
             if (XC.Instance.CurrentContext != null)

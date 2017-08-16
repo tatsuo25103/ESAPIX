@@ -18,6 +18,12 @@ namespace ESAPIX.AppKit
 
         public IEnumerable<BrachyPlanSetup> BrachyPlansInScope { get; set; }
 
+        public string VersionInfo { get; set; }
+
+        public IonPlanSetup IonPlanSetup { get; private set; }
+
+        public IEnumerable<IonPlanSetup> IonPlansInScope => Course?.IonPlanSetups;
+
         public User CurrentUser { get; set; }
 
         public Course Course { get; set; }
@@ -47,6 +53,7 @@ namespace ESAPIX.AppKit
         public event StandAloneContext.ExternalPlanSetupChangedHandler ExternalPlanSetupChanged;
         public event StandAloneContext.PlanSetupChangedHandler BrachyPlanSetupChanged;
         public event StandAloneContext.CourseChangedHandler CourseChanged;
+        public event StandAloneContext.IonPlanSetupChangedHandler IonPlanSetupChanged;
 
         public T GetValue<T>(Func<IScriptContext, T> toExecute)
         {

@@ -76,6 +76,16 @@ namespace ESAPIX.AppKit
 
         public Dispatcher UIDispatcher { get; set; }
 
+        #region 151
+
+        public string VersionInfo => _ctx?.VersionInfo;
+
+        public IonPlanSetup IonPlanSetup => _ctx?.IonPlanSetup;
+
+        public IEnumerable<IonPlanSetup> IonPlansInScope => _ctx?.IonPlansInScope;
+
+        #endregion
+
         #region NOT USED
 
         //These will never get called
@@ -85,7 +95,7 @@ namespace ESAPIX.AppKit
         public event StandAloneContext.ExternalPlanSetupChangedHandler ExternalPlanSetupChanged;
         public event StandAloneContext.PlanSetupChangedHandler BrachyPlanSetupChanged;
         public event StandAloneContext.CourseChangedHandler CourseChanged;
-
+        public event StandAloneContext.IonPlanSetupChangedHandler IonPlanSetupChanged;
         #endregion
     }
 }

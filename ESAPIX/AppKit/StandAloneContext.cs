@@ -28,7 +28,7 @@ namespace ESAPIX.AppKit
 
         public void Dispose()
         {
-            _app?.Dispose();
+            _app.Dispose();
         }
 
         public Course Course { get; private set; }
@@ -47,7 +47,7 @@ namespace ESAPIX.AppKit
 
         public StructureSet StructureSet => PlanSetup?.StructureSet;
 
-        public IVMSThread Thread { get; set; }
+        public IVMSThread Thread { get; }
 
         public Dispatcher UIDispatcher { get; set; }
 
@@ -61,15 +61,19 @@ namespace ESAPIX.AppKit
 
         public IEnumerable<ExternalPlanSetup> ExternalPlansInScope => Course?.ExternalPlanSetups;
 
+        public string VersionInfo { get; set; }
+
+        public IonPlanSetup IonPlanSetup { get; private set; }
+
+        public IEnumerable<IonPlanSetup> IonPlansInScope => Course?.IonPlanSetups;
+
         /// <summary>
         ///     Creates a new application context and binds it to a new thread
         /// </summary>
-        /// <param name="username">VMS username</param>
-        /// <param name="password">VMS password</param>
         /// <returns>app context</returns>
-        public static StandAloneContext Create(string username, string password, bool singleThread = false)
+        public static StandAloneContext Create(bool singleThread = false)
         {
-            var app = Application.CreateApplication(username, password, singleThread);
+            Application app = Application.CreateApplication(singleThread);
             var thread = XContext.Instance.CurrentContext.Thread;
             return new StandAloneContext(app, thread);
         }
@@ -132,6 +136,16 @@ namespace ESAPIX.AppKit
             return BrachyPlanSetup != null;
         }
 
+        public bool SetIonPlanSetup(IonPlanSetup ips)
+        {
+            PlanSetup = ips;
+            IonPlanSetup = ips;
+            //Notify
+            OnIonPlanSetupChanged(ips);
+            OnPlanSetupChanged(ips);
+            return IonPlanSetup != null;
+        }
+
         public void ClosePatient()
         {
             _app.ClosePatient();
@@ -150,7 +164,7 @@ namespace ESAPIX.AppKit
 
         public void OnPatientChanged(Patient p)
         {
-            UIDispatcher.Invoke(() => PatientChanged?.Invoke(p));
+            PatientChanged?.Invoke(p);
         }
 
         public delegate void PlanSetupChangedHandler(PlanSetup ps);
@@ -159,7 +173,7 @@ namespace ESAPIX.AppKit
 
         public void OnPlanSetupChanged(PlanSetup ps)
         {
-            UIDispatcher.Invoke(() => PlanSetupChanged?.Invoke(ps));
+            PlanSetupChanged?.Invoke(ps);
         }
 
         public delegate void ExternalPlanSetupChangedHandler(ExternalPlanSetup ps);
@@ -168,7 +182,7 @@ namespace ESAPIX.AppKit
 
         public void OnExternalPlanSetupChanged(ExternalPlanSetup ps)
         {
-            UIDispatcher.Invoke(() => ExternalPlanSetupChanged?.Invoke(ps));
+            ExternalPlanSetupChanged?.Invoke(ps);
         }
 
         public delegate void BrachyPlanSetupChangedHandler(BrachyPlanSetup ps);
@@ -177,7 +191,16 @@ namespace ESAPIX.AppKit
 
         public void OnBrachyPlanSetupChanged(BrachyPlanSetup ps)
         {
-            UIDispatcher.Invoke(() => BrachyPlanSetupChanged?.Invoke(ps));
+            BrachyPlanSetupChanged?.Invoke(ps);
+        }
+
+        public delegate void IonPlanSetupChangedHandler(IonPlanSetup ps);
+
+        public event IonPlanSetupChangedHandler IonPlanSetupChanged;
+
+        public void OnIonPlanSetupChanged(IonPlanSetup ps)
+        {
+            IonPlanSetupChanged?.Invoke(ps);
         }
 
         public delegate void CourseChangedHandler(Course c);
@@ -186,7 +209,7 @@ namespace ESAPIX.AppKit
 
         public void OnCourseChanged(Course c)
         {
-            UIDispatcher.Invoke(() => CourseChanged?.Invoke(c));
+            CourseChanged?.Invoke(c);
         }
 
         public async Task<T> GetValueAsync<T>(Func<IScriptContext, T> toExecute)

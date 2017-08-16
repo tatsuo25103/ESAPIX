@@ -94,6 +94,33 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public ScriptEnvironment ScriptEnvironment
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("ScriptEnvironment"))
+                        return _client.ScriptEnvironment;
+                    else
+                        return default(ScriptEnvironment);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                        {
+                            if (_client.ScriptEnvironment != null)
+                                return new ScriptEnvironment(_client.ScriptEnvironment);
+                            return null;
+                        }
+                    );
+                return default(ScriptEnvironment);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.ScriptEnvironment = value;
+            }
+        }
+
         public void Dispose()
         {
             if (XC.Instance.CurrentContext != null)
@@ -103,9 +130,14 @@ namespace ESAPIX.Facade.API
                 _client.Dispose();
         }
 
-        public static Application CreateApplication(string username, string password, bool useSingleThread = false)
+        public static Application CreateApplication(string username, string password, bool singleThread = false)
         {
-            return StaticHelper.Application_CreateApplication(username, password, useSingleThread);
+            return StaticHelper.Application_CreateApplication(username, password, singleThread);
+        }
+
+        public static Application CreateApplication(bool singleThread = false)
+        {
+            return StaticHelper.Application_CreateApplication(singleThread);
         }
 
         public Patient OpenPatient(PatientSummary patientSummary)

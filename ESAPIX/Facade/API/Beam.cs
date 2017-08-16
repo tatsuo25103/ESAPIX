@@ -24,6 +24,72 @@ namespace ESAPIX.Facade.API
             _client = client;
         }
 
+        public string Id
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Id"))
+                        return _client.Id;
+                    else
+                        return default(string);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Id; }
+                    );
+                return default(string);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Id = value;
+            }
+        }
+
+        public MetersetValue Meterset
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Meterset"))
+                        return _client.Meterset;
+                    else
+                        return default(MetersetValue);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Meterset; }
+                    );
+                return default(MetersetValue);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Meterset = value;
+            }
+        }
+
+        public int BeamNumber
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("BeamNumber"))
+                        return _client.BeamNumber;
+                    else
+                        return default(int);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.BeamNumber; }
+                    );
+                return default(int);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.BeamNumber = value;
+            }
+        }
+
         public Applicator Applicator
         {
             get
@@ -92,28 +158,6 @@ namespace ESAPIX.Facade.API
             {
                 if (_client is ExpandoObject)
                     _client.AverageSSD = value;
-            }
-        }
-
-        public int BeamNumber
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("BeamNumber"))
-                        return _client.BeamNumber;
-                    else
-                        return default(int);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.BeamNumber; }
-                    );
-                return default(int);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.BeamNumber = value;
             }
         }
 
@@ -665,6 +709,33 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public PlanSetup Plan
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Plan"))
+                        return _client.Plan;
+                    else
+                        return default(PlanSetup);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                        {
+                            if (_client.Plan != null)
+                                return new PlanSetup(_client.Plan);
+                            return null;
+                        }
+                    );
+                return default(PlanSetup);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Plan = value;
+            }
+        }
+
         public double PlannedSSD
         {
             get
@@ -873,6 +944,28 @@ namespace ESAPIX.Facade.API
             }
         }
 
+        public double TreatmentTime
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("TreatmentTime"))
+                        return _client.TreatmentTime;
+                    else
+                        return default(double);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.TreatmentTime; }
+                    );
+                return default(double);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.TreatmentTime = value;
+            }
+        }
+
         public ExternalBeamTreatmentUnit TreatmentUnit
         {
             get
@@ -966,77 +1059,6 @@ namespace ESAPIX.Facade.API
             }
         }
 
-        public string Id
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("Id"))
-                        return _client.Id;
-                    else
-                        return default(string);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Id; }
-                    );
-                return default(string);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.Id = value;
-            }
-        }
-
-        public MetersetValue Meterset
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("Meterset"))
-                        return _client.Meterset;
-                    else
-                        return default(MetersetValue);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Meterset; }
-                    );
-                return default(MetersetValue);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.Meterset = value;
-            }
-        }
-
-        public ExternalBeam ExternalBeam
-        {
-            get
-            {
-                if (_client is ExpandoObject)
-                    if (((ExpandoObject) _client).HasProperty("ExternalBeam"))
-                        return _client.ExternalBeam;
-                    else
-                        return default(ExternalBeam);
-                if (XC.Instance.CurrentContext != null)
-                    return XC.Instance.CurrentContext.GetValue(sc =>
-                        {
-                            if (_client.ExternalBeam != null)
-                                return new ExternalBeam(_client.ExternalBeam);
-                            return null;
-                        }
-                    );
-                return default(ExternalBeam);
-            }
-
-            set
-            {
-                if (_client is ExpandoObject)
-                    _client.ExternalBeam = value;
-            }
-        }
-
         public void ApplyParameters(BeamParameters beamParams)
         {
             if (XC.Instance.CurrentContext != null)
@@ -1060,6 +1082,76 @@ namespace ESAPIX.Facade.API
                 return vmsResult;
             }
             return (bool) _client.CanSetOptimalFluence(fluence, out message);
+        }
+
+        public double CollimatorAngleToUser(double val)
+        {
+            if (XC.Instance.CurrentContext != null)
+            {
+                var vmsResult = XC.Instance.CurrentContext.GetValue(sc => { return _client.CollimatorAngleToUser(val); }
+                );
+                return vmsResult;
+            }
+            return (double) _client.CollimatorAngleToUser(val);
+        }
+
+        public void FitCollimatorToStructure(FitToStructureMargins margins, Structure structure,
+            bool useAsymmetricXJaws, bool useAsymmetricYJaws, bool optimizeCollimatorRotation)
+        {
+            if (XC.Instance.CurrentContext != null)
+                XC.Instance.CurrentContext.Thread.Invoke(() =>
+                    {
+                        _client.FitCollimatorToStructure(margins, structure._client, useAsymmetricXJaws,
+                            useAsymmetricYJaws, optimizeCollimatorRotation);
+                    }
+                );
+            else
+                _client.FitCollimatorToStructure(margins, structure, useAsymmetricXJaws, useAsymmetricYJaws,
+                    optimizeCollimatorRotation);
+        }
+
+        public void FitMLCToOutline(System.Windows.Point[][] outline)
+        {
+            if (XC.Instance.CurrentContext != null)
+                XC.Instance.CurrentContext.Thread.Invoke(() => { _client.FitMLCToOutline(outline); }
+                );
+            else
+                _client.FitMLCToOutline(outline);
+        }
+
+        public void FitMLCToStructure(Structure structure)
+        {
+            if (XC.Instance.CurrentContext != null)
+                XC.Instance.CurrentContext.Thread.Invoke(() => { _client.FitMLCToStructure(structure._client); }
+                );
+            else
+                _client.FitMLCToStructure(structure);
+        }
+
+        public void FitMLCToStructure(FitToStructureMargins margins, Structure structure,
+            bool optimizeCollimatorRotation, JawFitting jawFit, OpenLeavesMeetingPoint olmp,
+            ClosedLeavesMeetingPoint clmp)
+        {
+            if (XC.Instance.CurrentContext != null)
+                XC.Instance.CurrentContext.Thread.Invoke(() =>
+                    {
+                        _client.FitMLCToStructure(margins, structure._client, optimizeCollimatorRotation, jawFit, olmp,
+                            clmp);
+                    }
+                );
+            else
+                _client.FitMLCToStructure(margins, structure, optimizeCollimatorRotation, jawFit, olmp, clmp);
+        }
+
+        public double GantryAngleToUser(double val)
+        {
+            if (XC.Instance.CurrentContext != null)
+            {
+                var vmsResult = XC.Instance.CurrentContext.GetValue(sc => { return _client.GantryAngleToUser(val); }
+                );
+                return vmsResult;
+            }
+            return (double) _client.GantryAngleToUser(val);
         }
 
         public BeamParameters GetEditableParameters()
@@ -1097,6 +1189,30 @@ namespace ESAPIX.Facade.API
                 return vmsResult;
             }
             return (VVector) _client.GetSourceLocation(gantryAngle);
+        }
+
+        public string JawPositionsToUserString(VRect<double> val)
+        {
+            if (XC.Instance.CurrentContext != null)
+            {
+                var vmsResult = XC.Instance.CurrentContext.GetValue(
+                    sc => { return _client.JawPositionsToUserString(val); }
+                );
+                return vmsResult;
+            }
+            return (string) _client.JawPositionsToUserString(val);
+        }
+
+        public double PatientSupportAngleToUser(double val)
+        {
+            if (XC.Instance.CurrentContext != null)
+            {
+                var vmsResult = XC.Instance.CurrentContext.GetValue(
+                    sc => { return _client.PatientSupportAngleToUser(val); }
+                );
+                return vmsResult;
+            }
+            return (double) _client.PatientSupportAngleToUser(val);
         }
 
         public void SetOptimalFluence(Fluence fluence)

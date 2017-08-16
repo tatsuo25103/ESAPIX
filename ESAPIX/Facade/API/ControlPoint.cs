@@ -21,6 +21,33 @@ namespace ESAPIX.Facade.API
             _client = client;
         }
 
+        public Beam Beam
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Beam"))
+                        return _client.Beam;
+                    else
+                        return default(Beam);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc =>
+                        {
+                            if (_client.Beam != null)
+                                return new Beam(_client.Beam);
+                            return null;
+                        }
+                    );
+                return default(Beam);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Beam = value;
+            }
+        }
+
         public double CollimatorAngle
         {
             get
@@ -62,6 +89,28 @@ namespace ESAPIX.Facade.API
             {
                 if (_client is ExpandoObject)
                     _client.GantryAngle = value;
+            }
+        }
+
+        public int Index
+        {
+            get
+            {
+                if (_client is ExpandoObject)
+                    if (((ExpandoObject) _client).HasProperty("Index"))
+                        return _client.Index;
+                    else
+                        return default(int);
+                if (XC.Instance.CurrentContext != null)
+                    return XC.Instance.CurrentContext.GetValue(sc => { return _client.Index; }
+                    );
+                return default(int);
+            }
+
+            set
+            {
+                if (_client is ExpandoObject)
+                    _client.Index = value;
             }
         }
 

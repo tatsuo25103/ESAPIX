@@ -1,6 +1,7 @@
 #region
 
 using System.Dynamic;
+using VMS.TPS.Common.Model.Types;
 using XC = ESAPIX.Facade.XContext;
 
 #endregion
@@ -17,6 +18,18 @@ namespace ESAPIX.Facade.API
         public EvaluationDose(dynamic client)
         {
             _client = client;
+        }
+
+        public int DoseValueToVoxel(DoseValue doseValue)
+        {
+            if (XC.Instance.CurrentContext != null)
+            {
+                var vmsResult = XC.Instance.CurrentContext.GetValue(
+                    sc => { return _client.DoseValueToVoxel(doseValue); }
+                );
+                return vmsResult;
+            }
+            return (int) _client.DoseValueToVoxel(doseValue);
         }
 
         public void SetVoxels(int planeIndex, int[,] values)
