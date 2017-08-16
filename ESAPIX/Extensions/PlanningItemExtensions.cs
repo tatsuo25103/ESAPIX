@@ -126,17 +126,13 @@ namespace ESAPIX.Extensions
         private static bool ContainsStructure(this PlanningItem plan, string structId, string regex, out Structure s)
         {
             s = null;
-            //Make sure structures not null
-            var structures = plan.GetStructures();
-            if (structures == null) return false;
-
             foreach (var struc in plan.GetStructures())
             {
                 var regexMatched = !string.IsNullOrEmpty(regex) &&
                                    Regex.IsMatch(struc.Id, regex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
                 if (0 == string.Compare(structId, struc.Id, true) || regexMatched) s = struc;
                 if (s != null)
-                    if (!s.IsEmpty) return true;
+                    if (s.Volume > 0) return true;
             }
             return false; //None found
         }
@@ -182,16 +178,6 @@ namespace ESAPIX.Extensions
             VolumePresentation vp = VolumePresentation.Relative, double binWidth = 0.1)
         {
             return plan.GetDVHCumulativeData(s, dvp, vp, binWidth);
-        }
-
-        ///     Enables a shorter method for doing a common task (getting the DVH from a structure). Requires only a structure id, Contains default values.
-        /// </summary>
-        public static DVHData GetDefaultDVHCumulativeData(this PlanningItem plan, string structureId,
-            DoseValuePresentation dvp = DoseValuePresentation.Absolute,
-            VolumePresentation vp = VolumePresentation.Relative, double binWidth = 0.1)
-        {
-            var s = plan.GetStructure(structureId);
-            return s != null ? plan.GetDVHCumulativeData(s, dvp, vp, binWidth) : null;
         }
 
         /// <summary>
@@ -348,8 +334,7 @@ namespace ESAPIX.Extensions
         public static double GetComplimentVolumeAtDose(this PlanningItem pi, IEnumerable<Structure> ss, DoseValue dv,
             VolumePresentation vPres)
         {
-            var vol = ss.Sum(s => pi.GetComplimentVolumeAtDose(s, dv, VolumePresentation.AbsoluteCm3));
-            return vPres == VolumePresentation.AbsoluteCm3 ? vol : vol / ss.Sum(s => s.Volume) * 100;
+            return ss.Sum(s => pi.GetComplimentVolumeAtDose(s, dv, vPres));
         }
 
         /// <summary>
@@ -363,8 +348,7 @@ namespace ESAPIX.Extensions
         public static double GetVolumeAtDose(this PlanningItem pi, IEnumerable<Structure> ss, DoseValue dv,
             VolumePresentation vPres)
         {
-            var vol = ss.Sum(s => pi.GetVolumeAtDose(s, dv, VolumePresentation.AbsoluteCm3));
-            return vPres == VolumePresentation.AbsoluteCm3 ? vol : vol / ss.Sum(s => s.Volume)*100;
+            return ss.Sum(s => pi.GetVolumeAtDose(s, dv, vPres));
         }
 
         #endregion

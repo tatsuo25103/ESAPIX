@@ -1,10 +1,4 @@
-﻿#region
-
-
-
-#endregion
-
-namespace ESAPIX.Constraints
+﻿namespace ESAPIX.Constraints
 {
     public static class PriorityConverter
     {

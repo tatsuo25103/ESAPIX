@@ -38,11 +38,8 @@ namespace ESAPIX.Facade.Serialization
             typeof(IEnumerable<SeedCollection>),
             typeof(IEnumerable<ControlPointParameters>),
             typeof(IEnumerable<PatientSummary>),
-            typeof(IEnumerable<Study>),
             typeof(IEnumerable<Structure>),
-            typeof(IEnumerable<StructureSet>),
             typeof(IEnumerable<OptimizationObjective>),
-            typeof(IEnumerable<Registration>),
             typeof(IEnumerable<OptimizationParameter>),
             typeof(IEnumerable<StructureCodeInfo>),
             typeof(IEnumerable<Isodose>),
@@ -93,7 +90,7 @@ namespace ESAPIX.Facade.Serialization
                     try
                     {
                         JArray.Load(reader)
-                            .Select(i => (dynamic) serializer.Deserialize(((JObject) i).CreateReader(), typ))
+                            .Select(i => { return Populate(i, typ); })
                             .ToList()
                             .ForEach(i => { list.Add(i); });
                     }

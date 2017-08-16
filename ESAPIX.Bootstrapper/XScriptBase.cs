@@ -14,19 +14,23 @@ namespace ESAPIX.Bootstrapper
     {
         public void Execute(ScriptContext context, Window window)
         {
-            var scriptContext = new Facade.API.ScriptContext(context);
-            //When hooked up to bootstrapper (comment out otherwise)
-            FacadeInitializer.Initialize();
+            //Wrap context
+            var facade = new Facade.API.ScriptContext(context);
+            var plugin = new PluginContext(facade, window);
+
+            //Set up singleton XContext pointers
+            XContext.Instance.CurrentContext = plugin;
+            XContext.Instance.CurrentContext.UIDispatcher = window.Dispatcher;
+
             //Get this window barely visible so that when it does show, it isn't ugly ;)
             window.Height = window.Width = 0;
             window.WindowStyle = WindowStyle.None;
             window.Hide();
             window.Loaded += Window_Loaded;
 
-            var plugCtx = new PluginContext(scriptContext, window);
+            //Push to user method
             var frame = new DispatcherFrame();
-            XContext.Instance.CurrentContext = plugCtx;
-            XExecute(plugCtx, frame);
+            XExecute(plugin, frame);
             Dispatcher.PushFrame(frame);
         }
 

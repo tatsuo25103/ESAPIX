@@ -23,8 +23,6 @@ namespace ESAPIX.AppKit
             if (!useNewThread)
             {
                 thread = Thread.CurrentThread;
-                if (thread.GetApartmentState() != ApartmentState.STA)
-                    throw new Exception("The current thread must be marked as STA. Cannot connect to ESAPI!");
                 if (SynchronizationContext.Current == null)
                     SynchronizationContext.SetSynchronizationContext(new ConsoleSyncContext());
                 ctx = SynchronizationContext.Current;
@@ -48,7 +46,6 @@ namespace ESAPIX.AppKit
                             MessageBox.Show($"VMS Thread crashed : \n{e}");
                         }
                     });
-                    thread.Name = "ESAPIX Thread";
                     thread.IsBackground = true;
                     thread.SetApartmentState(ApartmentState.STA);
                     thread.Start();

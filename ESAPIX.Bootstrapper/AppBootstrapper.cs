@@ -6,13 +6,11 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using ESAPIX.AppKit;
 using ESAPIX.AppKit.Overlay;
+using ESAPIX.Facade;
 using ESAPIX.Interfaces;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Unity;
-using Newtonsoft.Json;
-using System.IO;
-using ESAPIX.Facade.Serialization;
 
 #endregion
 
@@ -20,30 +18,12 @@ namespace ESAPIX.Bootstrapper
 {
     public class AppBootstrapper<T> : UnityBootstrapper where T : Window
     {
-        private IScriptContext _ctx;
+        private StandAloneContext _ctx;
         private readonly EventAggregator _ea;
 
-        /// <summary>
-        /// Constructs a bootstrapper for standalone applications from a username, password
-        /// </summary>
-        /// <param name="singleThread">indicates whether or not to use a single thread (default is multithread)</param>
         public AppBootstrapper(bool singleThread = false)
         {
             FacadeInitializer.Initialize();
-            _ctx = StandAloneContext.Create(singleThread);
-            _ea = new EventAggregator();
-        }
-
-        /// <summary>
-        /// Constructs a bootstrapper for standalone applications from a offline context json file
-        /// </summary>
-        /// <param name="offlineContextPath">the path to the offline context json file</param>
-        public AppBootstrapper(string offlineContextPath)
-        {
-            FacadeInitializer.Initialize();
-            var ctx = FacadeSerializer.DeserializeContext(offlineContextPath);
-            ctx.Thread = new AppComThread();
-            _ctx = ctx;
             _ea = new EventAggregator();
         }
 
@@ -67,10 +47,7 @@ namespace ESAPIX.Bootstrapper
             shell.Closed += (send, args) =>
             {
                 //Dispose ESAPI and shutdown app
-                if(_ctx is StandAloneContext)
-                {
-                    (_ctx as StandAloneContext).Dispose();
-                }
+                _ctx.Dispose();
                 Application.Current.Shutdown();
             };
 
@@ -83,6 +60,7 @@ namespace ESAPIX.Bootstrapper
 
         public void Run(Func<Window> getSplash = null)
         {
+            _ctx = StandAloneContext.Create();
             if (getSplash != null)
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                     new Action(() => { getSplash().ShowDialog(); }));
@@ -99,14 +77,13 @@ namespace ESAPIX.Bootstrapper
         private void shell_ContentRendered(object sender, EventArgs e)
         {
             var shell = sender as Window;
-            if (shell != null && _ctx is StandAloneContext)
+            if (shell != null)
             {
-                var sac = _ctx as StandAloneContext;
                 var currentContent = (UIElement) shell.Content;
                 var stackPanel = new DockPanel();
                 stackPanel.VerticalAlignment = VerticalAlignment.Stretch;
                 shell.Content = stackPanel;
-                var selectPat = new SelectPatient(sac);
+                var selectPat = new SelectPatient(_ctx);
                 var selectPatContent = (FrameworkElement) selectPat.Content;
                 selectPatContent.DataContext = selectPat;
                 selectPat.Content = null;

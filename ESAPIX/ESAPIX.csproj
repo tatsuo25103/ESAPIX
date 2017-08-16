@@ -65,7 +65,7 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -92,12 +92,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="VMS.TPS.Common.Model.Interface">
-      <HintPath>..\ESAPIX_FacadeBuilder\ESAPIX_FacadeBuilder\DLL Versions\15.1\VMS.TPS.Common.Model.Interface.dll</HintPath>
+    <Reference Include="VMS.TPS.Common.Model.Interface, Version=15.5.110.0, Culture=neutral, PublicKeyToken=305b81e210ec4b89, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ESAPIX_FacadeBuilder\DLL Versions\15.1\VMS.TPS.Common.Model.Interface.dll</HintPath>
     </Reference>
     <Reference Include="VMS.TPS.Common.Model.Types, Version=13.6.30.20230, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ESAPIX_FacadeBuilder\ESAPIX_FacadeBuilder\DLL Versions\15.1\VMS.TPS.Common.Model.Types.dll</HintPath>
+      <HintPath>..\ESAPIX_FacadeBuilder\DLL Versions\15.1\VMS.TPS.Common.Model.Types.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -107,7 +108,6 @@
     <Compile Include="AppKit\Data\AppSettings.cs" />
     <Compile Include="AppKit\Data\JsonDataStore.cs" />
     <Compile Include="AppKit\Data\SecureStorage.cs" />
-    <Compile Include="AppKit\OfflineContext.cs" />
     <Compile Include="AppKit\Overlay\SelectPatient.xaml.cs">
       <DependentUpon>SelectPatient.xaml</DependentUpon>
     </Compile>
@@ -123,8 +123,6 @@
     <Compile Include="Constraints\ConstraintResult.cs" />
     <Compile Include="Constraints\DVH\DoseAtVolumeConstraint.cs" />
     <Compile Include="Constraints\DVH\DoseStructureConstraint.cs" />
-    <Compile Include="Constraints\TargetStat.cs" />
-    <Compile Include="Constraints\TargetStats.cs" />
     <Compile Include="Constraints\IConstraint.cs" />
     <Compile Include="Constraints\IPriorityConstraint.cs" />
     <Compile Include="Constraints\DVH\MaxComplimentDoseAtVolumeConstraint.cs" />
@@ -141,7 +139,6 @@
     <Compile Include="Constraints\DVH\MinVolAtDoseConstraint.cs" />
     <Compile Include="Constraints\NFractionConstraint.cs" />
     <Compile Include="Constraints\OrConstraint.cs" />
-    <Compile Include="Constraints\PQAsserter.cs" />
     <Compile Include="Constraints\PriorityType.cs" />
     <Compile Include="Constraints\ResultType.cs" />
     <Compile Include="Constraints\StructureNameConstraint.cs" />
@@ -201,11 +198,9 @@
     <Compile Include="Facade\API\DVHData.cs" />
     <Compile Include="Facade\API\EstimatedDVH.cs" />
     <Compile Include="Facade\API\EvaluationDose.cs" />
-    <Compile Include="Facade\API\ExternalBeam.cs" />
     <Compile Include="Facade\API\ExternalBeamTreatmentUnit.cs" />
     <Compile Include="Facade\API\ExternalPlanSetup.cs" />
     <Compile Include="Facade\API\FieldReferencePoint.cs" />
-    <Compile Include="Facade\API\Fractionation.cs" />
     <Compile Include="Facade\API\Hospital.cs" />
     <Compile Include="Facade\API\Image.cs" />
     <Compile Include="Facade\API\IonBeam.cs" />
@@ -230,7 +225,6 @@
     <Compile Include="Facade\API\OptimizationNormalTissueParameter.cs" />
     <Compile Include="Facade\API\OptimizationObjective.cs" />
     <Compile Include="Facade\API\OptimizationParameter.cs" />
-    <Compile Include="Facade\API\OptimizationPointCloudParameter.cs" />
     <Compile Include="Facade\API\OptimizationPointObjective.cs" />
     <Compile Include="Facade\API\OptimizationSetup.cs" />
     <Compile Include="Facade\API\OptimizerDVH.cs" />
@@ -273,14 +267,10 @@
     <Compile Include="Facade\API\Wedge.cs" />
     <Compile Include="Facade\DefaultHelper.cs" />
     <Compile Include="Facade\ExpandoGetter.cs" />
-    <Compile Include="Facade\Serialization\DoseProfileConverter.cs" />
-    <Compile Include="Facade\Serialization\DoseValueConverter.cs" />
-    <Compile Include="Facade\Serialization\DVHPointConverter.cs" />
-    <Compile Include="Facade\Serialization\ESAPIContractResolver.cs" />
     <Compile Include="Facade\Serialization\FacadeSerializer.cs" />
+    <Compile Include="Facade\Serialization\InfiniteLoopResolver.cs" />
     <Compile Include="Facade\Serialization\MeshGeometryConverter.cs" />
-    <Compile Include="Facade\Serialization\ProfilePointConverter.cs" />
-    <Compile Include="Facade\Serialization\StructureCodeInfoConverter.cs" />
+    <Compile Include="Facade\Serialization\SerializedMethod.cs" />
     <Compile Include="Facade\StaticHelper.cs" />
     <Compile Include="Facade\VMSConstructor.cs" />
     <Compile Include="Helpers\FileHelper.cs" />

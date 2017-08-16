@@ -1,16 +1,14 @@
 ﻿#region
 
 using System.Collections.Generic;
-using System.IO;
-using ESAPIX.AppKit;
-using ESAPIX.Interfaces;
+using ESAPIX.Facade.API;
 using Newtonsoft.Json;
 
 #endregion
 
 namespace ESAPIX.Facade.Serialization
 {
-    public static class FacadeSerializer
+    public class FacadeSerializer
     {
         public static JsonSerializerSettings DeserializeSettings
         {
@@ -19,17 +17,7 @@ namespace ESAPIX.Facade.Serialization
                 return new JsonSerializerSettings
                 {
                     TypeNameHandling = TypeNameHandling.None,
-                    Converters = new List<JsonConverter>
-                    {
-                        new IEnumerableJsonConverter(),
-                        new MeshGeometryConverter(),
-                        new ProfilePointConverter(),
-                        new DoseProfileConverter(),
-                        new DVHPointConverter(),
-                        new StructureCodeInfoConverter(),
-                        new DoseValueConverter()
-                    },
-                    ContractResolver = new ESAPIContractResolver()
+                    Converters = new List<JsonConverter> {new IEnumerableJsonConverter(), new MeshGeometryConverter()}
                 };
             }
         }
@@ -41,87 +29,29 @@ namespace ESAPIX.Facade.Serialization
                 return new JsonSerializerSettings
                 {
                     TypeNameHandling = TypeNameHandling.None,
-                    ContractResolver = new ESAPIContractResolver(),
-                    Converters = new List<JsonConverter> {new DoseProfileConverter()}
+                    ContractResolver = new InfiniteLoopResolver()
                 };
             }
         }
 
-        /// <summary>
-        /// Serialize to JSON string
-        /// </summary>
-        /// <param name="o">object to be serialized</param>
-        /// <returns>json string of object</returns>
-        public static string Serialize(object o)
+        public static Patient DeserializePatient(string jsonPatient)
         {
-            var json = JsonConvert.SerializeObject(o, SerializeSettings);
-            return json;
+            return JsonConvert.DeserializeObject<Patient>(jsonPatient, DeserializeSettings);
         }
 
-        /// <summary>
-        /// Serialize to text file (json)
-        /// </summary>
-        /// <param name="o">object to be serialized</param>
-        /// <param name="jsonPath">file path to save object file</param>
-        public static void SerializeToFile(object o, string jsonPath)
+        public static PlanSetup DeserializePlan(string jsonPlan)
         {
-            var json = Serialize(o);
-            File.WriteAllText(jsonPath, json);
+            return JsonConvert.DeserializeObject<PlanSetup>(jsonPlan, DeserializeSettings);
         }
 
-        /// <summary>
-        /// Deserialize from JSON string
-        /// </summary>
-        /// <typeparam name="T">the type of object to be returned</typeparam>
-        /// <param name="json">json string of object</param>
-        /// <returns>object</returns>
-        public static T Deserialize<T>(string json)
+        public static string SerializePlan(PlanSetup plan)
         {
-            return JsonConvert.DeserializeObject<T>(json, DeserializeSettings);
+            return JsonConvert.SerializeObject(plan, SerializeSettings);
         }
 
-        /// <summary>
-        /// Deserialize from JSON string
-        /// </summary>
-        /// <typeparam name="T">the type of object to be returned</typeparam>
-        /// <param name="jsonPath">file path to save object file</param>
-        /// <returns>object</returns>
-        public static T DeserializeFromFile<T>(string jsonPath)
+        public static string SerializePatient(Patient patient)
         {
-            var json = File.ReadAllText(jsonPath);
-            return JsonConvert.DeserializeObject<T>(json, DeserializeSettings);
-        }
-
-        public static void SerializeContext(IScriptContext ctx, string jsonPath)
-        {
-            SerializeToFile(ctx, jsonPath);
-        }
-
-        public static OfflineContext DeserializeContext(string jsonPath)
-        {
-            var ctx = DeserializeFromFile<OfflineContext>(jsonPath);
-            //BRACHY
-            if (ctx.BrachyPlanSetup != null) ctx.BrachyPlanSetup.Course = ctx.Course;
-            if (ctx.BrachyPlansInScope != null)
-                foreach (var ps in ctx.BrachyPlansInScope)
-                    ps.Course = ctx.Course;
-            //PLAN SETUPS
-            if (ctx.PlanSetup != null) ctx.PlanSetup.Course = ctx.Course;
-            if (ctx.PlansInScope != null)
-                foreach (var ps in ctx.PlansInScope)
-                    ps.Course = ctx.Course;
-            //EXTERNAL PLAN SETUPS
-            if (ctx.ExternalPlanSetup != null) ctx.ExternalPlanSetup.Course = ctx.Course;
-            if (ctx.ExternalPlansInScope != null)
-                foreach (var ps in ctx.PlansInScope)
-                    ps.Course = ctx.Course;
-
-            //PLAN SUMS
-            if (ctx.PlanSumsInScope != null)
-                foreach (var ps in ctx.PlanSumsInScope)
-                    ps.Course = ctx.Course;
-
-            return ctx;
+            return JsonConvert.SerializeObject(patient, SerializeSettings);
         }
     }
 }

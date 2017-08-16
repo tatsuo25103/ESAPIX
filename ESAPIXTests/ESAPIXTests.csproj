@@ -99,7 +99,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="VMS.TPS.Common.Model.Types, Version=13.6.30.20230, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ESAPIX_FacadeBuilder\ESAPIX_FacadeBuilder\DLL Versions\15.1\VMS.TPS.Common.Model.Types.dll</HintPath>
+      <HintPath>..\ESAPIX_FacadeBuilder\DLL Versions\15.1\VMS.TPS.Common.Model.Types.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -112,7 +112,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Constraints\PQAsserterTests.cs" />
     <Compile Include="Extensions\DVHDataExtensionsTests.cs" />
     <Compile Include="Extensions\QueryExtensionsTests.cs" />
     <Compile Include="Facade\ExpandoGetterTests.cs" />

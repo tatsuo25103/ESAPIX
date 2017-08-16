@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using ESAPIX.AppKit;
 using ESAPIX.Helpers;
 using ESAPIX.Interfaces;
 using Microsoft.Practices.Unity;
@@ -12,7 +13,7 @@ using Prism.Unity;
 
 #endregion
 
-namespace ESAPIX.AppKit
+namespace ESAPIX.Bootstrapper
 {
     public class ScriptBootstrapper<T> : UnityBootstrapper where T : Window
     {
@@ -20,6 +21,8 @@ namespace ESAPIX.AppKit
         private readonly DispatcherFrame _frame;
 
         private readonly PluginContext _sc;
+
+        public Window _vmsWindow;
 
         public ScriptBootstrapper(PluginContext ctx, DispatcherFrame frame)
         {
@@ -44,7 +47,7 @@ namespace ESAPIX.AppKit
 
         protected override void InitializeShell()
         {
-            var shell = (Window)Shell;
+            var shell = (Window) Shell;
             _sc.UIDispatcher = shell.Dispatcher;
             shell.ShowDialog();
             _frame.Continue = false;
@@ -61,13 +64,7 @@ namespace ESAPIX.AppKit
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"SCRIPT ERROR (Closing Thread) \n Exception Details : \n {e.ToString()}");
-                    _sc.Thread.Invoke(() =>
-                    {
-                        _frame.Continue = false;
-                        var main = (Window)this.Shell;
-                        if (main.IsActive) main.Close();
-                    });
+                    MessageBox.Show(e.ToString());
                 }
             });
             ui.SetApartmentState(ApartmentState.STA);

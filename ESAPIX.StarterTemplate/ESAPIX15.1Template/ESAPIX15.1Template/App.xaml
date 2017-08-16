@@ -1,0 +1,8 @@
+﻿<Application x:Class="ESAPIX15._1Template.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ESAPIX15._1Template">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

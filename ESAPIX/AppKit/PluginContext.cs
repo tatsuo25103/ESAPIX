@@ -18,12 +18,10 @@ namespace ESAPIX.AppKit
     public class PluginContext : IScriptContext
     {
         private readonly ScriptContext _ctx;
-        private readonly WeakReference _scriptReference;
 
         public PluginContext(ScriptContext ctx, Window w)
         {
             _ctx = ctx;
-            _scriptReference = new WeakReference(ctx._client);
             Thread = new ScriptComThread(w.Dispatcher);
         }
 
@@ -52,11 +50,6 @@ namespace ESAPIX.AppKit
         public IEnumerable<PlanSum> PlanSumsInScope => _ctx?.PlanSumsInScope;
 
         public StructureSet StructureSet => _ctx?.StructureSet;
-
-        public bool IsDisposed
-        {
-            get { return _scriptReference.IsAlive; }
-        }
 
         public IVMSThread Thread { get; }
 
@@ -91,11 +84,12 @@ namespace ESAPIX.AppKit
         //These will never get called
         public event StandAloneContext.PatientChangedHandler PatientChanged;
 
+        public event StandAloneContext.IonPlanSetupChangedHandler IonPlanSetupChanged;
         public event StandAloneContext.PlanSetupChangedHandler PlanSetupChanged;
         public event StandAloneContext.ExternalPlanSetupChangedHandler ExternalPlanSetupChanged;
         public event StandAloneContext.PlanSetupChangedHandler BrachyPlanSetupChanged;
         public event StandAloneContext.CourseChangedHandler CourseChanged;
-        public event StandAloneContext.IonPlanSetupChangedHandler IonPlanSetupChanged;
+
         #endregion
     }
 }
